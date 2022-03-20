@@ -4,22 +4,21 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "Recipe.hpp"
 
-using std::string;
+#include "Recipe.hpp"
 
 namespace mobicraft
 {
   class Config
   {
-    std::vector<string> items;
-    std::map<string, Recipe> recipes;
+    std::vector<std::string> items;
+    std::map<std::string, Recipe> recipes;
 
     void loadItems(std::istream &in);
     void loadRecipe(std::istream &in);
 
   public:
-    Config(string itemsFile, string recipesDir);
+    Config(std::string itemsFile, std::string recipesDir);
     ~Config();
   };
 }

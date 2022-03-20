@@ -3,29 +3,14 @@
 
 namespace mobicraft
 {
-  Recipe::Recipe(string name, int row, int col, std::vector<string> recipe, int quantity)
+  Recipe::Recipe(std::string name, Grid<std::string> recipe, int quantity)
+      : name(name), recipe(recipe), quantity(quantity)
   {
-    this->name = name;
-    this->row = row;
-    this->col = col;
-    this->quantity = quantity;
+  }
 
-    if (recipe.size() > CraftingTableSize)
-    {
-      // Throw
-    }
-    else if (recipe.size() < CraftingTableSize)
-    {
-      this->type = RecipeType::Submatrix;
-    }
-    else
-    {
-      this->type = RecipeType::Normal;
-    }
-
-    for (int i = 0; i < recipe.size(); i++)
-    {
-      this->recipe.push_back(recipe[i]);
-    }
+  bool Recipe::operator==(const Grid<std::string> &table) const
+  {
+    auto reduced = table.reduce(std::string("-"));
+    return recipe == reduced || recipe.flipVertically() == reduced;
   }
 }

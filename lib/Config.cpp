@@ -4,13 +4,12 @@
 #include <map>
 #include <vector>
 
-using std::string;
-
 #include "Config.hpp"
+#include "Grid.hpp"
 
 namespace mobicraft
 {
-  Config::Config(string itemsFile, string recipesDir)
+  Config::Config(std::string itemsFile, std::string recipesDir)
   {
     std::ifstream fin;
 
@@ -37,7 +36,7 @@ namespace mobicraft
   void Config::loadItems(std::istream &in)
   {
     int id;
-    string name, type, tool;
+    std::string name, type, tool;
 
     while (in >> id)
     {
@@ -52,25 +51,24 @@ namespace mobicraft
   void Config::loadRecipe(std::istream &in)
   {
     int row, col, qty;
-    string name;
+    std::string name;
 
     in >> row;
     in >> col;
 
-    std::vector<string> recipe;
+    Grid<std::string> recipe(row, col);
 
     for (int i = 0; i < row; ++i)
     {
       for (int j = 0; j < col; ++j)
       {
-        in >> name;
-        recipe.push_back(name);
+        in >> recipe.at(i, j);
       }
     }
 
     in >> name;
     in >> qty;
 
-    recipes.insert(std::pair<string, Recipe>(name, Recipe(name, row, col, recipe, qty)));
+    recipes.insert(std::pair<std::string, Recipe>(name, Recipe(name, recipe, qty)));
   }
 }
