@@ -13,4 +13,9 @@ namespace mobicraft
     auto reduced = table.reduce(std::string("-"));
     return recipe == reduced || recipe.flipVertically() == reduced;
   }
+
+  bool Recipe::operator!=(const Grid<std::string> &table) const
+  {
+    return !(*this == table);
+  }
 }

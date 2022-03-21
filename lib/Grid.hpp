@@ -2,6 +2,7 @@
 #define GRID_H
 
 #include <vector>
+#include <utility>
 #include <iostream>
 
 namespace mobicraft
@@ -71,9 +72,7 @@ namespace mobicraft
       {
         for (int j = 0; j < col / 2; ++j)
         {
-          T tmp = flip.at(i, j);
-          flip.at(i, j) = flip.at(i, col - j - 1);
-          flip.at(i, col - j - 1) = tmp;
+          std::swap(flip.at(i, j), flip.at(i, col - j - 1));
         }
       }
 

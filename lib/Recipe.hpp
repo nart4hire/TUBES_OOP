@@ -16,6 +16,7 @@ namespace mobicraft
   public:
     Recipe(std::string name, Grid<std::string> recipe, int quantity);
     bool operator==(const Grid<std::string> &table) const;
+    bool operator!=(const Grid<std::string> &table) const;
   };
 }
 
