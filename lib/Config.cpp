@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "Config.hpp"
+#include "Tool.hpp"
+#include "NonTool.hpp"
 #include "Grid.hpp"
 
 namespace mobicraft
@@ -19,7 +21,7 @@ namespace mobicraft
 
     for (auto i = items.begin(); i != items.end(); ++i)
     {
-      fin.open(recipesDir + "/" + *i + ".txt");
+      fin.open(recipesDir + "/" + i->first + ".txt");
 
       if (fin.good())
       {
@@ -31,6 +33,10 @@ namespace mobicraft
 
   Config::~Config()
   {
+    for (auto i = items.begin(); i != items.end(); ++i)
+    {
+      delete i->second;
+    }
   }
 
   void Config::loadItems(std::istream &in)
@@ -44,7 +50,16 @@ namespace mobicraft
       in >> type;
       in >> tool;
 
-      items.push_back(name);
+      Item *item;
+
+      if (tool == "TOOL")
+      {
+        item = new Tool(id, name, type);
+      } else {
+        item = new NonTool(id, name, type, 1);
+      }
+
+      items.insert(std::pair<std::string, Item*>(name, item));
     }
   }
 

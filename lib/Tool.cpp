@@ -2,11 +2,11 @@
 #include <iostream>
 
 namespace mobicraft {
-    Tool::Tool(int id, std::string name, std::string type, int quantity) : Item(id, name, type, quantity) {
+    Tool::Tool(int id, std::string name, std::string type) : Item(id, name, type, 1) {
         this->durability = 10;
     }
 
-    Tool::Tool(int id, std::string name, std::string type, int quantity, int durability) : Item(id, name, type, quantity) {
+    Tool::Tool(int id, std::string name, std::string type, int durability) : Item(id, name, type, 1) {
         this->durability = durability;
     }
 

@@ -5,13 +5,14 @@
 #include <vector>
 #include <map>
 
+#include "Item.hpp"
 #include "Recipe.hpp"
 
 namespace mobicraft
 {
   class Config
   {
-    std::vector<std::string> items;
+    std::map<std::string, Item*> items;
     std::map<std::string, Recipe> recipes;
 
     void loadItems(std::istream &in);

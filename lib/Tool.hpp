@@ -9,8 +9,8 @@ namespace mobicraft {
     private:
         int durability;
     public:
-        Tool(int id, std::string name, std::string type, int quantity);
-        Tool(int id, std::string name, std::string type, int quantity, int durability);
+        Tool(int id, std::string name, std::string type);
+        Tool(int id, std::string name, std::string type, int durability);
         ~Tool();
         
         void use();
