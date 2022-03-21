@@ -1,9 +1,24 @@
+#include <string>
+
 #include "lib/Config.hpp"
 
 using namespace mobicraft;
 
-int main(void)
+int main(int argc, char *argv[])
 {
-  Config conf = Config("./config/item.txt", "./config/recipe");
+  std::string itemsFile("./config/item.txt");
+  std::string recipesDir("./config/recipe");
+
+  if (argc > 1 && argc < 3)
+  {
+    // Error
+  }
+  else if (argc == 3)
+  {
+    itemsFile = argv[1];
+    recipesDir = argv[2];
+  }
+
+  Config conf = Config(itemsFile, recipesDir);
   return 0;
 }
