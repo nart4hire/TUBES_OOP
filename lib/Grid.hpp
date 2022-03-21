@@ -43,6 +43,9 @@ namespace mobicraft
 
     bool operator==(const Grid &o) const
     {
+      if (row != o.row || col != o.col)
+        return false;
+
       for (int i = 0; i < row; ++i)
       {
         for (int j = 0; j < col; ++j)
@@ -79,7 +82,7 @@ namespace mobicraft
 
     Grid<T> reduce(const T &null) const
     {
-      int imin = row, jmin = col;
+      int imin = row - 1, jmin = col - 1;
       int imax = 0, jmax = 0;
 
       for (int i = 0; i < row; ++i)
@@ -90,12 +93,12 @@ namespace mobicraft
           {
             if (i < imin)
               imin = i;
-            else if (i > imax)
+            if (i > imax)
               imax = i;
 
             if (j < jmin)
               jmin = j;
-            else if (j > jmax)
+            if (j > jmax)
               jmax = j;
           }
         }
