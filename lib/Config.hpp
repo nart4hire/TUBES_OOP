@@ -13,8 +13,8 @@ namespace mobicraft
   {
     std::string itemsFile;
     std::string recipesDir;
-    std::vector<Recipe*> recipesList;
-    std::map<std::string, Recipe*> recipesMap;
+    std::vector<Recipe *> recipesList;
+    std::map<std::string, Recipe *> recipesMap;
 
     void loadItems();
     void loadRecipe(std::string name);
@@ -22,6 +22,7 @@ namespace mobicraft
   public:
     Config(std::string itemsFile, std::string recipesDir);
     ~Config();
+    const std::vector<Recipe *> &getRecipes() const;
   };
 }
 

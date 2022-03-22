@@ -23,38 +23,42 @@ namespace mobicraft
   }
 
   ToolRecipe::ToolRecipe(int id, std::string name, std::string type)
-    : Recipe(id, name, type)
+      : Recipe(id, name, type)
   {
   }
 
   void ToolRecipe::set(const Grid<std::string> &recipe, int quantity)
   {
     if (quantity != 1)
+    {
       // error
+    }
 
     this->recipe = recipe;
   }
 
-  Item* ToolRecipe::create()
+  Item *ToolRecipe::create()
   {
     return new Tool(id, name, type);
   }
 
   NonToolRecipe::NonToolRecipe(int id, std::string name, std::string type)
-    : Recipe(id, name, type)
+      : Recipe(id, name, type)
   {
   }
 
   void NonToolRecipe::set(const Grid<std::string> &recipe, int quantity)
   {
     if (quantity < 1)
+    {
       // error
+    }
 
     this->recipe = recipe;
     this->quantity = quantity;
   }
 
-  Item* NonToolRecipe::create()
+  Item *NonToolRecipe::create()
   {
     return new NonTool(id, name, type, quantity);
   }

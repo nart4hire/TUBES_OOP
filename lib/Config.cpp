@@ -10,7 +10,7 @@
 namespace mobicraft
 {
   Config::Config(std::string itemsFile, std::string recipesDir)
-    : itemsFile(itemsFile), recipesDir(recipesDir)
+      : itemsFile(itemsFile), recipesDir(recipesDir)
   {
     loadItems();
     for (auto const &i : recipesList)
@@ -21,7 +21,7 @@ namespace mobicraft
 
   Config::~Config()
   {
-    for (auto const& i : recipesList)
+    for (auto const &i : recipesList)
     {
       delete i;
     }
@@ -44,7 +44,9 @@ namespace mobicraft
       if (tool == "TOOL")
       {
         recipe = new ToolRecipe(id, name, type);
-      } else {
+      }
+      else
+      {
         recipe = new NonToolRecipe(id, name, type);
       }
 
@@ -83,5 +85,10 @@ namespace mobicraft
     }
 
     fin.close();
+  }
+
+  const std::vector<Recipe *> &Config::getRecipes() const
+  {
+    return recipesList;
   }
 }
