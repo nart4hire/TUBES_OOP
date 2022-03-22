@@ -4,19 +4,46 @@
 #include <string>
 
 #include "Grid.hpp"
+#include "Item.hpp"
 
 namespace mobicraft
 {
   class Recipe
   {
-    std::string name;
+  protected:
     Grid<std::string> recipe;
-    int quantity;
 
   public:
-    Recipe(std::string name, Grid<std::string> recipe, int quantity);
+    const int id;
+    const std::string name;
+    const std::string type;
+
+    Recipe(int id, std::string name, std::string type);
     bool operator==(const Grid<std::string> &table) const;
     bool operator!=(const Grid<std::string> &table) const;
+
+    virtual void set(const Grid<std::string> &recipe, int quantity) = 0;
+    virtual Item* create() = 0;
+  };
+
+  class ToolRecipe : public Recipe
+  {
+    const int durability = 10;
+
+  public:
+    ToolRecipe(int id, std::string name, std::string type);
+    void set(const Grid<std::string> &recipe, int quantity);
+    Item* create();
+  };
+
+  class NonToolRecipe : public Recipe
+  {
+    int quantity = 1;
+
+  public:
+    NonToolRecipe(int id, std::string name, std::string type);
+    void set(const Grid<std::string> &recipe, int quantity);
+    Item* create();
   };
 }
 

@@ -19,6 +19,6 @@ int main(int argc, char *argv[])
     recipesDir = argv[2];
   }
 
-  Config conf = Config(itemsFile, recipesDir);
+  Config config(itemsFile, recipesDir);
   return 0;
 }

@@ -1,8 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <map>
-#include <vector>
 
 #include "Config.hpp"
 #include "Tool.hpp"
@@ -12,78 +10,78 @@
 namespace mobicraft
 {
   Config::Config(std::string itemsFile, std::string recipesDir)
+    : itemsFile(itemsFile), recipesDir(recipesDir)
   {
-    std::ifstream fin;
-
-    fin.open(itemsFile);
-    loadItems(fin);
-    fin.close();
-
-    for (auto i = items.begin(); i != items.end(); ++i)
+    loadItems();
+    for (auto const &i : recipesList)
     {
-      fin.open(recipesDir + "/" + i->first + ".txt");
-
-      if (fin.good())
-      {
-        loadRecipe(fin);
-      }
-      fin.close();
+      loadRecipe(i->name);
     }
   }
 
   Config::~Config()
   {
-    for (auto i = items.begin(); i != items.end(); ++i)
+    for (auto const& i : recipesList)
     {
-      delete i->second;
+      delete i;
     }
   }
 
-  void Config::loadItems(std::istream &in)
+  void Config::loadItems()
   {
     int id;
     std::string name, type, tool;
 
-    while (in >> id)
+    std::ifstream fin(itemsFile);
+    while (fin >> id)
     {
-      in >> name;
-      in >> type;
-      in >> tool;
+      fin >> name;
+      fin >> type;
+      fin >> tool;
 
-      Item *item;
+      Recipe *recipe;
 
       if (tool == "TOOL")
       {
-        item = new Tool(id, name, type);
+        recipe = new ToolRecipe(id, name, type);
       } else {
-        item = new NonTool(id, name, type, 1);
+        recipe = new NonToolRecipe(id, name, type);
       }
 
-      items.insert(std::pair<std::string, Item*>(name, item));
+      recipesList.push_back(recipe);
+      recipesMap[name] = recipe;
     }
+
+    fin.close();
   }
 
-  void Config::loadRecipe(std::istream &in)
+  void Config::loadRecipe(std::string name)
   {
-    int row, col, qty;
-    std::string name;
+    std::ifstream fin(recipesDir + "/" + name + ".txt");
 
-    in >> row;
-    in >> col;
-
-    Grid<std::string> recipe(row, col);
-
-    for (int i = 0; i < row; ++i)
+    if (fin.good())
     {
-      for (int j = 0; j < col; ++j)
+      int row, col, qty;
+
+      fin >> row;
+      fin >> col;
+
+      Grid<std::string> recipe(row, col);
+
+      for (int i = 0; i < row; ++i)
       {
-        in >> recipe.at(i, j);
+        for (int j = 0; j < col; ++j)
+        {
+          fin >> recipe.at(i, j);
+        }
       }
+
+      fin >> name;
+      fin >> qty;
+
+      recipesMap[name]->set(recipe, qty);
     }
 
-    in >> name;
-    in >> qty;
-
-    recipes.insert(std::pair<std::string, Recipe>(name, Recipe(name, recipe, qty)));
+    fin.close();
   }
 }

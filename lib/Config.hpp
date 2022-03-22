@@ -5,18 +5,19 @@
 #include <vector>
 #include <map>
 
-#include "Item.hpp"
 #include "Recipe.hpp"
 
 namespace mobicraft
 {
   class Config
   {
-    std::map<std::string, Item*> items;
-    std::map<std::string, Recipe> recipes;
+    std::string itemsFile;
+    std::string recipesDir;
+    std::vector<Recipe*> recipesList;
+    std::map<std::string, Recipe*> recipesMap;
 
-    void loadItems(std::istream &in);
-    void loadRecipe(std::istream &in);
+    void loadItems();
+    void loadRecipe(std::string name);
 
   public:
     Config(std::string itemsFile, std::string recipesDir);
