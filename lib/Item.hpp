@@ -6,7 +6,7 @@
 namespace mobicraft {
     class Item
     {
-    private:
+    protected:
         int id;
         std::string name;
         std::string type;
@@ -17,6 +17,7 @@ namespace mobicraft {
 
         virtual void use() = 0;
         virtual void getinfo();
+        virtual void what(); // Displays Item_Name Qty/Dur
     };
 }
 #endif

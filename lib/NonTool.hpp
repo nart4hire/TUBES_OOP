@@ -14,6 +14,7 @@ namespace mobicraft {
 
         void use();
         void getinfo();
+        void what(); // Displays Item_Name Qty/Dur
     };
 }
 #endif

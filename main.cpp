@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
   if (argc > 1 && argc < 3)
   {
-    // Error
+    exit(1); // Abnormal Exit
   }
   else if (argc == 3)
   {
@@ -20,5 +20,6 @@ int main(int argc, char *argv[])
   }
 
   Config config(itemsFile, recipesDir);
+
   return 0;
 }

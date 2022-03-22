@@ -19,12 +19,17 @@ namespace mobicraft {
             this->durability--;
         } else {
             this->~Tool();
+            std::cout << "The tool " << this->name << " broke." << std::endl;
         }
-        
     }
 
     void Tool::getinfo() {
         std::cout << durability;
         Item::getinfo();
+    }
+
+    void Tool::what() {
+        Item::what();
+        std::cout << " " << this->durability;
     }
 }

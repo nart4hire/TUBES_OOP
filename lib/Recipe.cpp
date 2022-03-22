@@ -42,6 +42,11 @@ namespace mobicraft
     return new Tool(id, name, type);
   }
 
+  bool ToolRecipe::isTool()
+  {
+    return true;
+  }
+
   NonToolRecipe::NonToolRecipe(int id, std::string name, std::string type)
       : Recipe(id, name, type)
   {
@@ -60,6 +65,11 @@ namespace mobicraft
 
   Item *NonToolRecipe::create()
   {
-    return new NonTool(id, name, type, quantity);
+    return new NonTool(this->id, this->name, this->type, this->quantity);
+  }
+
+  bool NonToolRecipe::isTool()
+  {
+    return false;
   }
 }

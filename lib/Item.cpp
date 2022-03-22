@@ -14,4 +14,8 @@ namespace mobicraft {
     void Item::getinfo() {
         std::cout << id << name << type << quantity;
     }
+
+    void Item::what() {
+        std::cout << name;
+    }
 }

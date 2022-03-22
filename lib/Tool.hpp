@@ -12,9 +12,10 @@ namespace mobicraft {
         Tool(int id, std::string name, std::string type);
         Tool(int id, std::string name, std::string type, int durability);
         ~Tool();
-        
+
         void use();
         void getinfo();
+        void what(); // Displays Item_Name Qty/Dur
     };
 }
 #endif
