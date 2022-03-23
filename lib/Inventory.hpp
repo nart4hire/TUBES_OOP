@@ -58,6 +58,7 @@ namespace mobicraft {
 
         const void Export(std::string); // Melakukan export pada file .txt
 
+        void Help(); // Prints help
     };
 
 }
