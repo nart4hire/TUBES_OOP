@@ -3,7 +3,7 @@
 
 namespace mobicraft {
     // ctor
-    Inventory::Inventory() {
+    Inventory::Inventory() : isCraftable(false){
         this->Inven = new Item*[27];
         for (int i = 0; i < 27; i++) this->Inven[i] = nullptr;
         this->Crinv = new Item*[9];
@@ -22,6 +22,37 @@ namespace mobicraft {
     }
 
     // Methods
+    void Inventory::compareCrinvRecipe(Config& config){
+        Grid<std::string> CrinvOfItemName(3,3);
+        
+        int crinvIterator = 0;
+        std::string nameAtCrinvIterator = "";
+
+        for (int i = 0; i < 3; ++i){
+            for (int j = 0; j < 3; ++j){
+                if (this->Crinv[crinvIterator]){
+                    nameAtCrinvIterator = Crinv[crinvIterator]->getName();
+                    CrinvOfItemName.pushBackElmt(nameAtCrinvIterator);
+                } else {
+                    CrinvOfItemName.pushBackElmt("-");
+                }
+                ++crinvIterator;
+            }
+        }
+
+        auto recipeList = config.getRecipes();
+        for (const auto& recipe : recipeList){
+            if (*recipe == CrinvOfItemName){
+                isCraftable = true;
+            }
+        }
+    }
+
+    void Inventory::makeCrinvEmpty(){
+        for (int i = 0; i < 9; ++i){
+            Crinv[i] = nullptr;
+        }
+    }
 
     const int Inventory::getMinimum() {
         for (int i = 0; i < 27; i++) {
@@ -75,13 +106,12 @@ namespace mobicraft {
     } // Generic Handler for Move command
 
     void Inventory::Use(int i) {
-        try {
-            this->Inven[i]->use();
-        } // catch tool break/nullptr
+        this->Inven[i]->use();
+        
     } // Use dari inventory
 
     void Inventory::Craft() {
-        // Belum Diimplement
+        
     } // Melakukan Crafting
 
     void Inventory::Import() {

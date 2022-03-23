@@ -13,6 +13,8 @@ namespace mobicraft {
     private:
         Item **Inven;
         Item **Crinv;
+        bool isCraftable;
+
     public:
         enum Stype {Inv = 0, Cr = 1}; // Declare
 
@@ -26,6 +28,9 @@ namespace mobicraft {
         friend std::istream& operator>>(std::istream&, Inventory&);
 
         // Methods
+
+        void compareCrinvRecipe(Config&); // Check whether Crinv satisfies one of recipe configuration
+        void makeCrinvEmpty();
 
         const int getMinimum(); // Gets index of ItemPTR of minimum empty slot
 
