@@ -31,11 +31,10 @@ namespace mobicraft {
 
         // Methods
 
-        void DeleteSlotContents(Stype, int);
+        void DeleteSlotContents(Stype, int); // Auxiliary for deleting items in inventory slots
 
         void compareCrinvRecipe(Config&); // Check whether Crinv satisfies one of recipe configuration
         void makeCrinvEmpty();
-
 
         const int getMinimum(); // Gets index of ItemPTR of minimum empty slot
 
@@ -46,6 +45,8 @@ namespace mobicraft {
         void Give(Config&, std::string, int); // Menambahkan Item pada Inventory
 
         void Discard(int, int); // Membuang Item pada Inventory
+
+        const bool isCrash(Stype, int, Stype, int); // Auxiliary Function To Check for Item Crashing
 
         void Move(Stype, int, int, Stype, int*); // Generic Handler for Move command
 

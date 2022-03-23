@@ -25,6 +25,10 @@ namespace mobicraft {
         std::cout << name;
     }
 
+    const int Item::getId() const {
+        return this->id;
+    }
+
     const std::string& Item::getName() const{
         return this->name;
     }

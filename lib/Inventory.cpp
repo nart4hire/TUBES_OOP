@@ -21,6 +21,7 @@ namespace mobicraft {
         return is;
     }
 
+    // Methods
     void Inventory::DeleteSlotContents(Stype s, int i) {
         if (s == Inv) {
             delete this->Inven[i];
@@ -29,9 +30,8 @@ namespace mobicraft {
             delete this->Crinv[i];
             this->Crinv[i] = nullptr;
         }
-    }
+    } // Auxiliary for deleting items in inventory slots
 
-    // Methods
     void Inventory::compareCrinvRecipe(Config& config){
         Grid<std::string> CrinvOfItemName(3,3);
 
@@ -158,9 +158,80 @@ namespace mobicraft {
         }
     } // Membuang Item pada Inventory
 
+    const bool Inventory::isCrash(Stype src, int i, Stype dst, int j) {
+        Item *a, *b;
+
+        if (src == Inv) a = this->Inven[i];
+        else if (src == Cr) a = this->Crinv[i];
+
+        if (dst == Inv) b = this->Inven[j];
+        else if (dst == Cr) b = this->Crinv[j];
+
+        if (a->isTool() && b != nullptr ||                    // Tool and other slot not empty
+            !a->isTool() && !(*a == *b) ||                    // NonTool and other slot not same item
+            (b != nullptr && a->getAmt() + b->getAmt() > 64)) // Same item, but amount is over one stack
+            return true;
+        return false;
+    } // Auxiliary Function To Check for Item Crashing
+
     void Inventory::Move(Stype src, int i, int n, Stype dst, int* j) {
-        std::cout << "Not Implemented" << std::endl;
-        // Belum Bisa Implement, Tool gaada getter setter
+        // Type 1
+        if (src == Inv && dst == Cr) {
+            if (this->Inven[i] == nullptr) throw new NotExistsException();
+            if ((this->Inven[i]->isTool() && n > 1) || (this->Inven[i]->getAmt() < n)) throw new NumberTooBigException();
+            for (int it = 0; it < n; it++) {
+                if (this->isCrash(src, i, dst, j[it])) throw new CrashSlotException();
+            }
+
+            if (n == 1 && this->Crinv[j[0]] == nullptr) {
+                if (this->Inven[i]->isTool()) {
+                    this->Crinv[j[0]] = this->Inven[i];
+                    this->Inven[i] = nullptr;
+                } else {
+                    this->Crinv[j[0]] = new NonTool(this->Inven[i]->getId(), this->Inven[i]->getName(), this->Inven[i]->getType(), 1);
+                    this->Inven[i]->setAmt(this->Inven[i]->getAmt() - 1);
+                }
+            } else if (!this->Inven[i]->isTool()) {
+                for (int it = 0; it < n; it++) {
+                    if (this->Crinv[j[it]] == nullptr) {
+                        this->Crinv[j[it]] = new NonTool(this->Inven[i]->getId(), this->Inven[i]->getName(), this->Inven[i]->getType(), 1);
+                        this->Inven[i]->setAmt(this->Inven[i]->getAmt() - 1);
+                    } else {
+                        this->Crinv[j[it]]->setAmt(this->Crinv[j[it]]->getAmt() + 1);
+                        this->Inven[i]->setAmt(this->Inven[i]->getAmt() - 1);
+                    }
+                    if (this->Inven[i]->getAmt() == 0) this->DeleteSlotContents(Inv, i);
+                }
+            } else {
+                throw new WrongTypeException();
+            }
+        }
+        // Type 2
+        else if (src == Inv && dst == Inv) {
+            if (this->Inven[i] == nullptr) throw new NotExistsException();
+            if (this->isCrash(src, i, dst, j[0])) throw new CrashSlotException();
+
+            if (this->Inven[j[0]] == nullptr) {
+                this->Inven[j[0]] = this->Inven[i];
+                this->Inven[i] = nullptr;
+            } else {
+                this->Inven[j[0]]->setAmt(this->Inven[j[0]]->getAmt() + this->Inven[i]->getAmt());
+                this->DeleteSlotContents(Inv, i);
+            }
+        }
+        // Type 3
+        else if (src == Cr && dst == Inv) {
+            if (this->Crinv[i] == nullptr) throw new NotExistsException();
+            if (this->isCrash(src, i, dst, j[0])) throw new CrashSlotException();
+
+            if (this->Inven[j[0]] == nullptr) {
+                this->Inven[j[0]] = this->Crinv[i];
+                this->Crinv[i] = nullptr;
+            } else {
+                this->Inven[j[0]]->setAmt(this->Inven[j[0]]->getAmt() + this->Crinv[i]->getAmt());
+                this->DeleteSlotContents(Cr, i);
+            }
+        }
     } // Generic Handler for Move command
 
     void Inventory::Use(int i) {

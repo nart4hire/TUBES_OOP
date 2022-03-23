@@ -2,6 +2,7 @@
 #define ITEM_HPP
 
 #include <string>
+#include "Exception.hpp"
 
 namespace mobicraft {
     class Item
@@ -14,6 +15,7 @@ namespace mobicraft {
         Item(int id, std::string name, std::string type);
         ~Item();
 
+        const int getId() const;
         const std::string& getName() const;
         const std::string& getType() const;
         bool hasType() const;
