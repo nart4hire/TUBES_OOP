@@ -29,7 +29,9 @@ namespace mobicraft {
         virtual bool isTool() = 0;
         virtual bool isFull() = 0;
         virtual void getinfo();
-        virtual void what(); // Displays Item_Name Qty/Dur
+        virtual void what(std::ostream& os) const; // Displays Item_Name Qty/Dur
+
+        friend std::ostream& operator<<(std::ostream& os, const Item& item);
     };
 }
 #endif

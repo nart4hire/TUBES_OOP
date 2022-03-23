@@ -40,8 +40,8 @@ namespace mobicraft {
         return (this->durability == MaxDurability);
     }
 
-    void Tool::what() {
-        Item::what();
-        std::cout << " " << this->durability;
+    void Tool::what(std::ostream& os) const {
+        Item::what(os);
+        os << " " << this->durability;
     }
 }

@@ -87,7 +87,7 @@ namespace mobicraft {
         for (int i = 0; i < 9; i++) {
             std::cout << "[ ";
             if (this->Crinv[i] != nullptr) {
-                this->Crinv[i]->what();
+                std::cout << this->Crinv[i];
             } else {
                 std::cout << "Empty";
             }
@@ -100,7 +100,7 @@ namespace mobicraft {
         for (int i = 0; i < 27; i++) {
             std::cout << "[ ";
             if (this->Inven[i] != nullptr) {
-                this->Inven[i]->what();
+                std::cout << this->Inven[i];
             } else {
                 std::cout << "Empty";
             }

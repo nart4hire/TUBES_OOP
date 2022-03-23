@@ -3,6 +3,7 @@
 #include <cctype>
 
 #include "lib/Config.hpp"
+#include "lib/Inventory.hpp"
 
 using namespace mobicraft;
 
@@ -27,6 +28,8 @@ int main(int argc, char *argv[])
 
   std::cout << "Welcome to MOBICRAFT. Type HELP for help, QUIT to quit.\n";
 
+  Inventory inv;
+
   std::string cmd;
   do {
     std::cout << "> ";
@@ -35,6 +38,10 @@ int main(int argc, char *argv[])
     if (cmd == "HELP")
     {
       printHelp();
+    }
+    else if (cmd == "SHOW")
+    {
+      inv.Show();
     }
   } while (cmd != "QUIT");
 

@@ -21,8 +21,14 @@ namespace mobicraft {
         return (this->id == dst.id && this->name == dst.name && this->type == dst.type);
     }
 
-    void Item::what() {
-        std::cout << name;
+    void Item::what(std::ostream& os) const {
+        os << name;
+    }
+
+    std::ostream& operator<<(std::ostream& os, const Item& item)
+    {
+        item.what(os);
+        return os;
     }
 
     const int Item::getId() const {
