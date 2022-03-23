@@ -1,14 +1,20 @@
-#include "Recipe.hpp"
 #include <iostream>
 
+#include "Recipe.hpp"
 #include "Tool.hpp"
 #include "NonTool.hpp"
+#include "Exception.hpp"
 
 namespace mobicraft
 {
   Recipe::Recipe(int id, std::string name, std::string type, bool isTool)
       : id(id), name(name), type(type), isTool(isTool)
   {
+  }
+
+  bool Recipe::isCraftable() const
+  {
+    return !recipe.isNull();
   }
 
   bool Recipe::operator==(const Grid<std::string> &table) const
@@ -31,7 +37,7 @@ namespace mobicraft
   {
     if (quantity != 1)
     {
-      // error
+      throw InvalidQuantityException();
     }
 
     this->recipe = recipe;
@@ -51,7 +57,7 @@ namespace mobicraft
   {
     if (quantity < 1)
     {
-      // error
+      throw InvalidQuantityException();
     }
 
     this->recipe = recipe;
@@ -60,6 +66,6 @@ namespace mobicraft
 
   Item *NonToolRecipe::create()
   {
-    return new NonTool(this->id, this->name, this->type, this->quantity);
+    return new NonTool(id, name, type, quantity);
   }
 }
