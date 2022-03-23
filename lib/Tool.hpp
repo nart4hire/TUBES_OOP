@@ -14,7 +14,10 @@ namespace mobicraft {
         ~Tool();
 
         void use();
+        int getAmt();
+        void setAmt(int);
         void getinfo();
+        bool isTool();
         void what(); // Displays Item_Name Qty/Dur
     };
 }

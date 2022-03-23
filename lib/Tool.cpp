@@ -2,17 +2,11 @@
 #include <iostream>
 
 namespace mobicraft {
-    Tool::Tool(int id, std::string name, std::string type) : Item(id, name, type, 1) {
-        this->durability = 10;
-    }
+    Tool::Tool(int id, std::string name, std::string type) : Item(id, name, type), durability(10) {}
 
-    Tool::Tool(int id, std::string name, std::string type, int durability) : Item(id, name, type, 1) {
-        this->durability = durability;
-    }
+    Tool::Tool(int id, std::string name, std::string type, int durability) : Item(id, name, type), durability(10) {}
 
-    Tool::~Tool() {
-
-    }
+    Tool::~Tool() {}
 
     void Tool::use() {
         if (this->durability != 1) {
@@ -26,6 +20,18 @@ namespace mobicraft {
     void Tool::getinfo() {
         std::cout << durability;
         Item::getinfo();
+    }
+
+    int Tool::getAmt() {
+        return this->durability;
+    }
+
+    void Tool::setAmt(int x) {
+        this->durability = x;
+    }
+
+    bool Tool::isTool() {
+        return true;
     }
 
     void Tool::what() {

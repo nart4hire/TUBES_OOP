@@ -10,13 +10,18 @@ namespace mobicraft {
         int id;
         std::string name;
         std::string type;
-        int quantity;
     public:
-        Item(int id, std::string name, std::string type, int quantity);
+        Item(int id, std::string name, std::string type);
         ~Item();
 
         std::string getName() const;
+
+        bool operator==(Tool&);
+
         virtual void use() = 0;
+        virtual int getAmt() = 0;
+        virtual void setAmt(int) = 0;
+        virtual bool isTool() = 0;
         virtual void getinfo();
         virtual void what(); // Displays Item_Name Qty/Dur
     };
