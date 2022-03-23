@@ -21,10 +21,20 @@ namespace mobicraft {
         return is;
     }
 
+    void Inventory::DeleteSlotContents(Stype s, int i) {
+        if (s == Inv) {
+            delete this->Inven[i];
+            this->Inven[i] = nullptr;
+        } else if (s == Cr) {
+            delete this->Crinv[i];
+            this->Crinv[i] = nullptr;
+        }
+    }
+
     // Methods
     void Inventory::compareCrinvRecipe(Config& config){
         Grid<std::string> CrinvOfItemName(3,3);
-        
+
         int crinvIterator = 0;
         std::string nameAtCrinvIterator = "";
 
@@ -50,7 +60,7 @@ namespace mobicraft {
 
     void Inventory::makeCrinvEmpty(){
         for (int i = 0; i < 9; ++i){
-            Crinv[i] = nullptr;
+            this->DeleteSlotContents(Cr, i);
         }
     }
 
@@ -90,14 +100,26 @@ namespace mobicraft {
     } // Menampilkan Isi Inven dan Crafting
 
     void Inventory::Give(Config& c, std::string s, int i) {
-        Recipe *r = c.recipesMap[s];
+        std::map<std::string, Recipe *>::iterator it = c.recipesMap.find(s);
+        if (it == c.recipesMap.end()) throw new NotExistsException();
+        Recipe *r = c.recipesMap.at(s);
         if (r->isTool()) this->Inven[this->getMinimum()] = new Tool(r->id, r->name, r->type);
         else this->Inven[this->getMinimum()] = new NonTool(r->id, r->name, r->type, i);
     } // Menambahkan Item pada Inventory
 
-    void Inventory::Discard(int i, int j) {
-        std::cout << "Not Implemented" << std::endl;
-        // Belum Bisa Implement, Tool gaada getter setter
+    void Inventory::Discard(int i, int n) {
+        if (this->Inven[i] == nullptr) throw new NothingSlotException();
+        if (this->Inven[i]->isTool()) {
+            this->DeleteSlotContents(Inv, i);
+        } else {
+            if (this->Inven[i]->getAmt() > n) {
+                this->Inven[i]->setAmt(this->Inven[i]->getAmt() - n);
+            } else if (this->Inven[i]->getAmt() == n) {
+                this->DeleteSlotContents(Inv, i);
+            } else {
+                throw new NumberTooBigException();
+            }
+        }
     } // Membuang Item pada Inventory
 
     void Inventory::Move(Stype src, int i, int n, Stype dst, int* j) {
@@ -106,12 +128,13 @@ namespace mobicraft {
     } // Generic Handler for Move command
 
     void Inventory::Use(int i) {
-        this->Inven[i]->use();
-        
+        if (!this->Inven[i]->isTool()) throw new WrongTypeException();
+        if (this->Inven[i]->getAmt() > 0) this->Inven[i]->use();
+        else this->DeleteSlotContents(Inv, i);
     } // Use dari inventory
 
     void Inventory::Craft() {
-        
+
     } // Melakukan Crafting
 
     void Inventory::Import() {

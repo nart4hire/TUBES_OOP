@@ -3,9 +3,11 @@
 
 #include <iterator>
 #include <map>
+#include "Exception.hpp"
 #include "Config.hpp"
 #include "Tool.hpp"
 #include "NonTool.hpp"
+
 
 namespace mobicraft {
     class Inventory
@@ -29,8 +31,11 @@ namespace mobicraft {
 
         // Methods
 
+        void DeleteSlotContents(Stype, int);
+
         void compareCrinvRecipe(Config&); // Check whether Crinv satisfies one of recipe configuration
         void makeCrinvEmpty();
+
 
         const int getMinimum(); // Gets index of ItemPTR of minimum empty slot
 
