@@ -54,7 +54,7 @@ namespace mobicraft {
 
         void Craft(); // Melakukan Crafting
 
-        void Import(); // Import Inventory dari file .txt
+        void Import(Config, std::string); // Import Inventory dari file .txt
 
         const void Export(std::string); // Melakukan export pada file .txt
 

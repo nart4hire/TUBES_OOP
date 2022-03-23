@@ -1,5 +1,6 @@
 #include "Inventory.hpp"
 #include <iostream>
+#include <fstream>
 
 namespace mobicraft {
     // ctor
@@ -167,14 +168,14 @@ namespace mobicraft {
         if (dst == Inv) b = this->Inven[j];
         else if (dst == Cr) b = this->Crinv[j];
 
-        if (a->isTool() && b != nullptr ||                    // Tool and other slot not empty
-            !a->isTool() && !(*a == *b) ||                    // NonTool and other slot not same item
-            (b != nullptr && a->getAmt() + b->getAmt() > 64)) // Same item, but amount is over one stack
+        if (a->isTool() && b != nullptr ||                  // Tool and other slot not empty
+            !a->isTool() && !(*a == *b))                    // NonTool and other slot not same item
             return true;
         return false;
     } // Auxiliary Function To Check for Item Crashing
 
     void Inventory::Move(Stype src, int i, int n, Stype dst, int* j) {
+        int moved;
         // Type 1
         if (src == Inv && dst == Cr) {
             if (this->Inven[i] == nullptr) throw new NotExistsException();
@@ -215,8 +216,15 @@ namespace mobicraft {
                 this->Inven[j[0]] = this->Inven[i];
                 this->Inven[i] = nullptr;
             } else {
-                this->Inven[j[0]]->setAmt(this->Inven[j[0]]->getAmt() + this->Inven[i]->getAmt());
-                this->DeleteSlotContents(Inv, i);
+                if (this->Inven[j[0]]->getAmt() + this->Inven[i]->getAmt() <= 64) {
+                    this->Inven[j[0]]->setAmt(this->Inven[j[0]]->getAmt() + this->Inven[i]->getAmt());
+                    this->DeleteSlotContents(Inv, i);
+                } else {
+                    moved = 64 - this->Inven[j[0]]->getAmt();
+                    this->Inven[j[0]]->setAmt(64);
+                    this->Inven[i]->setAmt(this->Inven[i]->getAmt() - moved);
+                }
+
             }
         }
         // Type 3
@@ -228,8 +236,14 @@ namespace mobicraft {
                 this->Inven[j[0]] = this->Crinv[i];
                 this->Crinv[i] = nullptr;
             } else {
-                this->Inven[j[0]]->setAmt(this->Inven[j[0]]->getAmt() + this->Crinv[i]->getAmt());
-                this->DeleteSlotContents(Cr, i);
+                if (this->Inven[j[0]]->getAmt() + this->Crinv[i]->getAmt() <= 64) {
+                    this->Inven[j[0]]->setAmt(this->Inven[j[0]]->getAmt() + this->Crinv[i]->getAmt());
+                    this->DeleteSlotContents(Cr, i);
+                } else {
+                    moved = 64 - this->Inven[j[0]]->getAmt();
+                    this->Inven[j[0]]->setAmt(64);
+                    this->Crinv[i]->setAmt(this->Crinv[i]->getAmt() - moved);
+                }
             }
         }
     } // Generic Handler for Move command
@@ -244,13 +258,30 @@ namespace mobicraft {
 
     } // Melakukan Crafting
 
-    void Inventory::Import() {
+    void Inventory::Import(Config c, std::string) {
         std::cout << "Not Implemented" << std::endl;
         // Belum Bisa Implement, Tool gaada getter setter
     } // Import Inventory dari file .txt
 
-    const void Inventory::Export(std::string) {
-        std::cout << "Not Implemented" << std::endl;
-        // Belum Bisa Implement, Tool gaada getter setter
+    const void Inventory::Export(std::string path) {
+        std::ofstream of;
+        of.open(path);
+        int idx[1];
+
+        try {
+            for (int i = 0; i < 9; i++) {
+                idx[0] = this->getMinimumSameItem(*this->Crinv[i]);
+                if (idx[0] == -1) idx[0] = this->getMinimum();
+                this->Move(Cr, i, 1, Inv, idx);
+            }
+        } catch (Exception *e) {
+            std::cout << e->what() << std::endl;
+        }
+
+        for (int i = 0; i < 27; i++) {
+            if (this->Inven[i] != nullptr) of << this->Inven[i]->getId() << ":" << this->Inven[i]->getAmt() << std::endl;
+            else of << "0:0" << std::endl;
+        }
+        of.close();
     } // Melakukan export pada file .txt
 }
