@@ -16,12 +16,14 @@ namespace mobicraft {
 
         std::string getName() const;
 
-        bool operator==(Tool&);
+        bool operator==(const Item&);
+        bool equals(const Item&);
 
         virtual void use() = 0;
         virtual int getAmt() = 0;
         virtual void setAmt(int) = 0;
         virtual bool isTool() = 0;
+        virtual bool isFull() = 0;
         virtual void getinfo();
         virtual void what(); // Displays Item_Name Qty/Dur
     };

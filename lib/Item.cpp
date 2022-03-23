@@ -14,7 +14,11 @@ namespace mobicraft {
         std::cout << id << name << type;
     }
 
-    bool Item::operator==(Item& dst) {
+    bool Item::operator==(const Item& dst) {
+        return (this->id == dst.id && this->name == dst.name && this->type == dst.type);
+    }
+
+    bool Item::equals(const Item& dst) {
         return (this->id == dst.id && this->name == dst.name && this->type == dst.type);
     }
 

@@ -34,6 +34,10 @@ namespace mobicraft {
         return true;
     }
 
+    bool Tool::isFull() {
+        return (this->durability == 10);
+    }
+
     void Tool::what() {
         Item::what();
         std::cout << " " << this->durability;

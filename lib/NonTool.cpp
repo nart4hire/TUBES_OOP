@@ -26,6 +26,10 @@ namespace mobicraft {
         return false;
     }
 
+    bool NonTool::isFull() {
+        return (this->quantity == 64);
+    }
+
     void NonTool::what() {
         Item::what();
         std::cout << " " << this->quantity;

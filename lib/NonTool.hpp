@@ -17,6 +17,7 @@ namespace mobicraft {
         void setAmt(int);
         void getinfo();
         bool isTool();
+        bool isFull();
         void what(); // Displays Item_Name Qty/Dur
     };
 }
