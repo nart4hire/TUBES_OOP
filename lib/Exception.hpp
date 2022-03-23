@@ -79,6 +79,15 @@ namespace mobicraft
 
         std::string what() { return "Invalid quantity."; }
     };
+
+    class ConfigFileException : public Exception
+    {
+    public:
+        ConfigFileException() : Exception(8) {}
+        ~ConfigFileException() {}
+
+        std::string what() { return "Error accessing config file."; }
+    };
 }
 
 #endif

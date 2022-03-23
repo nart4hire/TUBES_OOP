@@ -35,6 +35,11 @@ namespace mobicraft
     std::string name, type, tool;
 
     std::ifstream fin(itemsFile);
+    if (!fin.is_open())
+    {
+      throw ConfigFileException();
+    }
+
     while (fin >> id)
     {
       fin >> name;
