@@ -41,10 +41,14 @@ namespace mobicraft {
         for (int i = 0; i < 3; ++i){
             for (int j = 0; j < 3; ++j){
                 if (this->Crinv[crinvIterator]){
-                    nameAtCrinvIterator = Crinv[crinvIterator]->getName();
-                    CrinvOfItemName.pushBackElmt(nameAtCrinvIterator);
+                    if (Crinv[crinvIterator]->hasType()) {
+                        nameAtCrinvIterator = Crinv[crinvIterator]->getType();
+                    } else {
+                        nameAtCrinvIterator = Crinv[crinvIterator]->getName();
+                    }
+                    CrinvOfItemName.at(i, j) = nameAtCrinvIterator;
                 } else {
-                    CrinvOfItemName.pushBackElmt("-");
+                    CrinvOfItemName.at(i, j) = "-";
                 }
                 ++crinvIterator;
             }

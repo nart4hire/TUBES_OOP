@@ -2,10 +2,9 @@
 #include <iostream>
 
 namespace mobicraft {
-    Item::Item(int id, std::string name, std::string type) {
-        this->id = id;
-        this->name = name;
-        this->type = type;
+    Item::Item(int id, std::string name, std::string type)
+        : id(id), name(name), type(type)
+    {
     }
 
     Item::~Item() {}
@@ -26,7 +25,15 @@ namespace mobicraft {
         std::cout << name;
     }
 
-    std::string Item::getName() const{
+    const std::string& Item::getName() const{
         return this->name;
+    }
+
+    const std::string& Item::getType() const{
+        return this->type;
+    }
+
+    bool Item::hasType() const {
+        return this->type != "-";
     }
 }

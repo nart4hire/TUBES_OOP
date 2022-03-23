@@ -7,14 +7,16 @@ namespace mobicraft {
     class Item
     {
     protected:
-        int id;
-        std::string name;
-        std::string type;
+        const int id;
+        const std::string name;
+        const std::string type;
     public:
         Item(int id, std::string name, std::string type);
         ~Item();
 
-        std::string getName() const;
+        const std::string& getName() const;
+        const std::string& getType() const;
+        bool hasType() const;
 
         bool operator==(const Item&);
         bool equals(const Item&);

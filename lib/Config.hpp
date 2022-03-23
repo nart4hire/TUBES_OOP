@@ -19,8 +19,8 @@ namespace mobicraft
 
     void loadItems();
     void loadRecipe(std::string name);
-  public:
 
+  public:
     Config(std::string itemsFile, std::string recipesDir);
     ~Config();
     const std::vector<Recipe *> &getRecipes() const;
