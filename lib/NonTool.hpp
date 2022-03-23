@@ -20,7 +20,7 @@ namespace mobicraft {
         void getinfo();
         bool isTool();
         bool isFull();
-        void what(); // Displays Item_Name Qty/Dur
+        void what(std::ostream& os); // Displays Item_Name Qty/Dur
     };
 }
 #endif
