@@ -46,4 +46,14 @@ int main(int argc, char *argv[])
 void printHelp()
 {
   // Help
+  std::cout << "COMMANDS : \n";
+  std::cout << "SHOW                                  : Menampilkan crafting table dan inventory\n";
+  std::cout << "GIVE <NAME> <QTY>                     : Menambahkan Item ke Inventory\n";
+  std::cout << "DISCARD <INV_SLOT_ID> <QTY>           : Membuang item di slot inventory dengan kuantitas yang diberikan\n";
+  std::cout << "MOVE <INV_SLOT_ID> N <CRAFT_SLOT_ID>* : Memindahkan item dari slot inventory ke N slot crafting\n";
+  std::cout << "MOVE <INV_SLOT_ID> 1 <INV_SLOT_ID>    : Menumpuk item pada kedua slot inventory\n";
+  std::cout << "MOVE <CRAFT_SLOT_ID> 1 <INV_SLOT_ID>* : Memindahkan item dari slot crafting ke slot inventory\n";
+  std::cout << "USE <INV_SLOT_ID>                     : Menggunakan Item, menurunkan durabilitas\n";
+  std::cout << "CRAFT                                 : Craft Item\n";
+  std::cout << "EXPORT <NAMA_FILE>                    : Export inventory dengan nama <NAMA_FILE>\n";
 }
