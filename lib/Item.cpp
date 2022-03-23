@@ -18,4 +18,8 @@ namespace mobicraft {
     void Item::what() {
         std::cout << name;
     }
+
+    std::string Item::getName() const{
+        return this->name;
+    }
 }

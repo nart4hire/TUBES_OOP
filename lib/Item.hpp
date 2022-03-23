@@ -15,6 +15,7 @@ namespace mobicraft {
         Item(int id, std::string name, std::string type, int quantity);
         ~Item();
 
+        std::string getName() const;
         virtual void use() = 0;
         virtual void getinfo();
         virtual void what(); // Displays Item_Name Qty/Dur
