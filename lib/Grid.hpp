@@ -32,6 +32,10 @@ namespace mobicraft
       return col;
     }
 
+    void pushBackElmt(T elmt){
+      table.push_back(elmt);
+    }
+
     T &at(int i, int j)
     {
       return table[i * col + j];
