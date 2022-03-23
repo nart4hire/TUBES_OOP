@@ -61,6 +61,15 @@ namespace mobicraft
 
         std::string what() { return "Input of the wrong type."; }
     };
+
+    class ContainerFullException : public Exception
+    {
+    public:
+        ContainerFullException() : Exception(6) {}
+        ~ContainerFullException() {}
+
+        std::string what() { return "Object Buffer is already full type."; }
+    };
 }
 
 #endif
