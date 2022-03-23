@@ -1,8 +1,12 @@
 #include <string>
+#include <iostream>
+#include <cctype>
 
 #include "lib/Config.hpp"
 
 using namespace mobicraft;
+
+void printHelp();
 
 int main(int argc, char *argv[])
 {
@@ -21,5 +25,25 @@ int main(int argc, char *argv[])
 
   Config config(itemsFile, recipesDir);
 
+  std::cout << "Welcome to MOBICRAFT. Type HELP for help, QUIT to quit.\n";
+
+  std::string cmd;
+  do {
+    std::cout << "> ";
+    std::cin >> cmd;
+
+    if (cmd == "HELP")
+    {
+      printHelp();
+    }
+  } while (cmd != "QUIT");
+
+  std::cout << "Goodbye.\n";
+
   return 0;
+}
+
+void printHelp()
+{
+  // Help
 }
