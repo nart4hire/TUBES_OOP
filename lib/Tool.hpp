@@ -9,6 +9,8 @@ namespace mobicraft {
     private:
         int durability;
     public:
+        static const int MaxDurability = 10;
+
         Tool(int id, std::string name, std::string type);
         Tool(int id, std::string name, std::string type, int durability);
         ~Tool();

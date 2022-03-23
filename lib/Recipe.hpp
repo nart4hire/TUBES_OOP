@@ -5,6 +5,7 @@
 
 #include "Grid.hpp"
 #include "Item.hpp"
+#include "NonTool.hpp"
 
 namespace mobicraft
 {
@@ -30,7 +31,7 @@ namespace mobicraft
   class ToolRecipe : public Recipe
   {
   private:
-    const int durability = 10;
+    const int durability = NonTool::MaxQuantity;
 
   public:
     ToolRecipe(int id, std::string name, std::string type);

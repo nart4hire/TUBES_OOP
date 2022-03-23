@@ -9,6 +9,8 @@ namespace mobicraft {
     private:
         int quantity;
     public:
+        static const int MaxQuantity = 64;
+
         NonTool(int id, std::string name, std::string type, int quantity);
         ~NonTool();
 

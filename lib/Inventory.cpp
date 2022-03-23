@@ -127,18 +127,18 @@ namespace mobicraft {
             NonTool nt = NonTool(r->id, r->name, r->type, 1);
             minSameIdx = this->getMinimumSameItem(nt);
             if (minSameIdx == -1) {
-                if (i > 64) {
-                    this->Inven[this->getMinimum()] = new NonTool(r->id, r->name, r->type, 64);
-                    this->Give(c, s, i - 64);
+                if (i > NonTool::MaxQuantity) {
+                    this->Inven[this->getMinimum()] = new NonTool(r->id, r->name, r->type, NonTool::MaxQuantity);
+                    this->Give(c, s, i - NonTool::MaxQuantity);
                 } else {
                     this->Inven[this->getMinimum()] = new NonTool(r->id, r->name, r->type, i);
                 }
 
-            } else if (this->Inven[minSameIdx]->getAmt() + i < 65) {
+            } else if (this->Inven[minSameIdx]->getAmt() + i < NonTool::MaxQuantity + 1) {
                 this->Inven[minSameIdx]->setAmt(this->Inven[minSameIdx]->getAmt() + i);
             } else {
-                remainder = i + this->Inven[minSameIdx]->getAmt() - 64;
-                this->Inven[minSameIdx]->setAmt(64);
+                remainder = i + this->Inven[minSameIdx]->getAmt() - NonTool::MaxQuantity;
+                this->Inven[minSameIdx]->setAmt(NonTool::MaxQuantity);
                 this->Give(c, s, remainder);
             }
         }

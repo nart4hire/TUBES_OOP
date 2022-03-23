@@ -2,9 +2,11 @@
 #include <iostream>
 
 namespace mobicraft {
-    Tool::Tool(int id, std::string name, std::string type) : Item(id, name, type), durability(10) {}
+    Tool::Tool(int id, std::string name, std::string type)
+            : Item(id, name, type), durability(MaxDurability) {}
 
-    Tool::Tool(int id, std::string name, std::string type, int durability) : Item(id, name, type), durability(10) {}
+    Tool::Tool(int id, std::string name, std::string type, int durability)
+            : Item(id, name, type), durability(MaxDurability) {}
 
     Tool::~Tool() {}
 
@@ -35,7 +37,7 @@ namespace mobicraft {
     }
 
     bool Tool::isFull() {
-        return (this->durability == 10);
+        return (this->durability == MaxDurability);
     }
 
     void Tool::what() {

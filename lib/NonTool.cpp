@@ -2,7 +2,8 @@
 #include <iostream>
 
 namespace mobicraft {
-    NonTool::NonTool(int id, std::string name, std::string type, int quantity) : Item(id, name, type), quantity(quantity) {}
+    NonTool::NonTool(int id, std::string name, std::string type, int quantity)
+            : Item(id, name, type), quantity(quantity) {}
 
     NonTool::~NonTool() {}
 
@@ -27,7 +28,7 @@ namespace mobicraft {
     }
 
     bool NonTool::isFull() {
-        return (this->quantity == 64);
+        return (this->quantity == MaxQuantity);
     }
 
     void NonTool::what() {
