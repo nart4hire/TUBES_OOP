@@ -42,6 +42,11 @@ namespace mobicraft
       return table[i * col + j];
     }
 
+    bool isNull() const
+    {
+      return (row == 0) && (col == 0);
+    }
+
     bool operator==(const Grid &o) const
     {
       if (row != o.row || col != o.col)

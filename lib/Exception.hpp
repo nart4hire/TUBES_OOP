@@ -70,6 +70,15 @@ namespace mobicraft
 
         std::string what() { return "Object Buffer is already full type."; }
     };
+
+    class InvalidQuantityException : public Exception
+    {
+    public:
+        InvalidQuantityException() : Exception(7) {}
+        ~InvalidQuantityException() {}
+
+        std::string what() { return "Invalid quantity."; }
+    };
 }
 
 #endif
