@@ -15,11 +15,11 @@ namespace mobicraft
     std::string itemsFile;
     std::string recipesDir;
     std::vector<Recipe *> recipesList;
+    std::map<std::string, Recipe *> recipesMap;
 
     void loadItems();
     void loadRecipe(std::string name);
   public:
-    std::map<std::string, Recipe *> recipesMap;
 
     Config(std::string itemsFile, std::string recipesDir);
     ~Config();
