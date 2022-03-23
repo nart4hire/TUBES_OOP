@@ -24,6 +24,7 @@ namespace mobicraft
     Config(std::string itemsFile, std::string recipesDir);
     ~Config();
     const std::vector<Recipe *> &getRecipes() const;
+    const Recipe *getRecipe(const std::string &name) const;
   };
 }
 

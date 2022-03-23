@@ -1,11 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdexcept>
 
 #include "Config.hpp"
 #include "Tool.hpp"
 #include "NonTool.hpp"
 #include "Grid.hpp"
+#include "Exception.hpp"
 
 namespace mobicraft
 {
@@ -90,5 +92,14 @@ namespace mobicraft
   const std::vector<Recipe *> &Config::getRecipes() const
   {
     return recipesList;
+  }
+
+  const Recipe *Config::getRecipe(const std::string &name) const
+  {
+    try {
+      return recipesMap.at(name);
+    } catch (const std::out_of_range &err) {
+      throw NotExistsException();
+    }
   }
 }
