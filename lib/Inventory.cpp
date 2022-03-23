@@ -71,6 +71,13 @@ namespace mobicraft {
         return -1;
     } // Gets ItemPTR of minimum empty slot
 
+    const int Inventory::getMinimumSameItem(Item& I) {
+        for (int i = 0; i < 27; i++) {
+            if (this->Inven[i] != nullptr && *this->Inven[i] == I && !this->Inven[i]->isFull()) return i;
+        }
+        return -1;
+    }
+
     const void Inventory::Show() {
         // Crafting
         for (int i = 0; i < 9; i++) {
@@ -97,14 +104,44 @@ namespace mobicraft {
             if (i % 9 == 8) std::cout << std::endl;
             else std::cout << " ";
         }
+        std::cout << std::endl;
     } // Menampilkan Isi Inven dan Crafting
 
     void Inventory::Give(Config& c, std::string s, int i) {
-        std::map<std::string, Recipe *>::iterator it = c.recipesMap.find(s);
+        std::map<std::string, Recipe *>::iterator it;
+        int minSameIdx, remainder;
+
+        // Inventory Full
+        if (this->getMinimum() == -1) throw new ContainerFullException();
+
+        it = c.recipesMap.find(s);
+
+        // Item doesn't Exist
         if (it == c.recipesMap.end()) throw new NotExistsException();
+
         Recipe *r = c.recipesMap.at(s);
-        if (r->isTool()) this->Inven[this->getMinimum()] = new Tool(r->id, r->name, r->type);
-        else this->Inven[this->getMinimum()] = new NonTool(r->id, r->name, r->type, i);
+        if (r->isTool()) {
+            this->Inven[this->getMinimum()] = new Tool(r->id, r->name, r->type);
+            if (i > 1) this->Give(c, s, i - 1);
+        } else {
+            NonTool nt = NonTool(r->id, r->name, r->type, 1);
+            minSameIdx = this->getMinimumSameItem(nt);
+            if (minSameIdx == -1) {
+                if (i > 64) {
+                    this->Inven[this->getMinimum()] = new NonTool(r->id, r->name, r->type, 64);
+                    this->Give(c, s, i - 64);
+                } else {
+                    this->Inven[this->getMinimum()] = new NonTool(r->id, r->name, r->type, i);
+                }
+
+            } else if (this->Inven[minSameIdx]->getAmt() + i < 65) {
+                this->Inven[minSameIdx]->setAmt(this->Inven[minSameIdx]->getAmt() + i);
+            } else {
+                remainder = i + this->Inven[minSameIdx]->getAmt() - 64;
+                this->Inven[minSameIdx]->setAmt(64);
+                this->Give(c, s, remainder);
+            }
+        }
     } // Menambahkan Item pada Inventory
 
     void Inventory::Discard(int i, int n) {

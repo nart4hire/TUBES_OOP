@@ -4,7 +4,7 @@ EXT_OUT = out
 EXT_ANS = ans
 EXECUTABLE_FILENAME = main
 ALL_SRCS := $(wildcard *.cpp lib/*.cpp)
-SRCS     := $(filter-out check.cpp, $(ALL_SRCS))
+SRCS     := $(filter-out check.cpp testinv.cpp, $(ALL_SRCS))
 
 all: compile test check
 
@@ -17,6 +17,9 @@ test: $(TC_FOLDER)/*.$(EXT_IN) $(EXECUTABLE_FILENAME)
 	for inputfile in $(TC_FOLDER)/*.$(EXT_IN); do \
 		./$(EXECUTABLE_FILENAME) < $$inputfile; \
 	done;
+
+testinv:
+	g++ -o testinv testinv.cpp $(filter-out main.cpp, $(SRCS))
 
 # Check
 check: FORCE check.cpp

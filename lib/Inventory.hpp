@@ -39,6 +39,8 @@ namespace mobicraft {
 
         const int getMinimum(); // Gets index of ItemPTR of minimum empty slot
 
+        const int getMinimumSameItem(Item&); // Gets Index of the same item with contents 0 <= x <= 64
+
         const void Show(); // Menampilkan Isi Inven dan Crafting
 
         void Give(Config&, std::string, int); // Menambahkan Item pada Inventory

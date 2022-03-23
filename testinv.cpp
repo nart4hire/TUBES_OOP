@@ -21,17 +21,20 @@ int main(int argc, char const *argv[])
     Config config(itemsFile, recipesDir);
 
     Inventory I;
-    for (int i = 0; i < 9; i++)
-    {
-        I.Give(config, "WOODEN_SWORD", i);
-        for (int j = 0; j < i; j++) I.Use(i);
-    }
+    I.Give(config, "OAK_LOG", 1);
+    I.Show();
+    I.Give(config, "OAK_LOG", 1000);
+    // for (int i = 0; i < 9; i++)
+    // {
+    //     I.Give(config, "WOODEN_SWORD", i);
+    //     for (int j = 0; j < i; j++) I.Use(i);
+    // }
 
-    for (int i = 0; i < 9; i++)
-    {
-        I.Give(config, "OAK_LOG", i + 1);
-        for (int j = 0; j < i; j++) I.Use(i);
-    }
+    // for (int i = 0; i < 9; i++)
+    // {
+    //     I.Give(config, "OAK_LOG", i + 1);
+    //     for (int j = 0; j < i; j++) I.Use(i);
+    // }
 
     I.Show();
 
