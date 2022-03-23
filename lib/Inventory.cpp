@@ -114,13 +114,8 @@ namespace mobicraft {
         // Inventory Full
         if (this->getMinimum() == -1) throw new ContainerFullException();
 
-        it = c.recipesMap.find(s);
-
-        // Item doesn't Exist
-        if (it == c.recipesMap.end()) throw new NotExistsException();
-
-        Recipe *r = c.recipesMap.at(s);
-        if (r->isTool()) {
+        const Recipe *r = c.getRecipe(s);
+        if (r->isTool) {
             this->Inven[this->getMinimum()] = new Tool(r->id, r->name, r->type);
             if (i > 1) this->Give(c, s, i - 1);
         } else {

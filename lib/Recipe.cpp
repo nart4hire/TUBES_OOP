@@ -6,8 +6,8 @@
 
 namespace mobicraft
 {
-  Recipe::Recipe(int id, std::string name, std::string type)
-      : id(id), name(name), type(type)
+  Recipe::Recipe(int id, std::string name, std::string type, bool isTool)
+      : id(id), name(name), type(type), isTool(isTool)
   {
   }
 
@@ -23,7 +23,7 @@ namespace mobicraft
   }
 
   ToolRecipe::ToolRecipe(int id, std::string name, std::string type)
-      : Recipe(id, name, type)
+      : Recipe(id, name, type, true)
   {
   }
 
@@ -42,13 +42,8 @@ namespace mobicraft
     return new Tool(id, name, type);
   }
 
-  bool ToolRecipe::isTool()
-  {
-    return true;
-  }
-
   NonToolRecipe::NonToolRecipe(int id, std::string name, std::string type)
-      : Recipe(id, name, type)
+      : Recipe(id, name, type, false)
   {
   }
 
@@ -66,10 +61,5 @@ namespace mobicraft
   Item *NonToolRecipe::create()
   {
     return new NonTool(this->id, this->name, this->type, this->quantity);
-  }
-
-  bool NonToolRecipe::isTool()
-  {
-    return false;
   }
 }

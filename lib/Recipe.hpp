@@ -18,14 +18,14 @@ namespace mobicraft
     const int id;
     const std::string name;
     const std::string type;
+    const bool isTool;
 
-    Recipe(int id, std::string name, std::string type);
+    Recipe(int id, std::string name, std::string type, bool isTool);
     bool operator==(const Grid<std::string> &table) const;
     bool operator!=(const Grid<std::string> &table) const;
 
     virtual void set(const Grid<std::string> &recipe, int quantity) = 0;
     virtual Item *create() = 0;
-    virtual bool isTool() = 0;
   };
 
   class ToolRecipe : public Recipe
@@ -37,7 +37,6 @@ namespace mobicraft
     ToolRecipe(int id, std::string name, std::string type);
     void set(const Grid<std::string> &recipe, int quantity);
     Item *create();
-    bool isTool();
   };
 
   class NonToolRecipe : public Recipe
@@ -49,7 +48,6 @@ namespace mobicraft
     NonToolRecipe(int id, std::string name, std::string type);
     void set(const Grid<std::string> &recipe, int quantity);
     Item *create();
-    bool isTool();
   };
 }
 
