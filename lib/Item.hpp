@@ -4,24 +4,26 @@
 #include <string>
 #include "Exception.hpp"
 
-namespace mobicraft {
+namespace mobicraft
+{
     class Item
     {
     protected:
         const int id;
         const std::string name;
         const std::string type;
+
     public:
         Item(int id, std::string name, std::string type);
         ~Item();
 
         const int getId() const;
-        const std::string& getName() const;
-        const std::string& getType() const;
+        const std::string &getName() const;
+        const std::string &getType() const;
         bool hasType() const;
 
-        bool operator==(const Item&);
-        bool equals(const Item&);
+        bool operator==(const Item &);
+        bool equals(const Item &);
 
         virtual void use() = 0;
         virtual int getAmt() = 0;
@@ -29,9 +31,9 @@ namespace mobicraft {
         virtual bool isTool() = 0;
         virtual bool isFull() = 0;
         virtual void getinfo();
-        virtual void what(std::ostream& os) const; // Displays Item_Name Qty/Dur
+        virtual void what(std::ostream &os) const; // Displays Item_Name Qty/Dur
 
-        friend std::ostream& operator<<(std::ostream& os, const Item& item);
+        friend std::ostream &operator<<(std::ostream &os, const Item *item);
     };
 }
 #endif

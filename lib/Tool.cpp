@@ -41,7 +41,7 @@ namespace mobicraft {
     }
 
     void Tool::what(std::ostream& os) const {
-        Item::what(os);
+        this->Item::what(os);
         os << " " << this->durability;
     }
 }

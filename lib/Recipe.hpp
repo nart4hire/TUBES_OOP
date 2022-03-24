@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Grid.hpp"
-#include "Item.hpp"
+#include "Tool.hpp"
 #include "NonTool.hpp"
 
 namespace mobicraft
@@ -50,7 +50,7 @@ namespace mobicraft
 
   public:
     NonToolRecipe(int id, std::string name, std::string type);
-    
+
     void set(const Grid<std::string> &recipe, int quantity);
     Item *create();
     int getAmt();
