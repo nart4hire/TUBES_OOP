@@ -1,6 +1,7 @@
 #include "Inventory.hpp"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 namespace mobicraft {
     // ctor
@@ -318,4 +319,20 @@ namespace mobicraft {
         std::cout << "CRAFT                                 : Craft Item\n";
         std::cout << "EXPORT <NAMA_FILE>                    : Export inventory dengan nama <NAMA_FILE>\n";
     } // Prints help
+
+    std::pair<Inventory::Stype, int> Inventory::parseId(std::string id) {
+        Inventory::Stype type;
+
+        if (id[0] == 'I') type = Inventory::Inv;
+        else if (id[0] == 'C') type = Inventory::Cr;
+        else throw NotExistsException();
+
+        int idx;
+        std::stringstream stream(id.substr(1));
+        stream >> idx;
+
+        if (stream.fail()) throw NotExistsException();
+
+        return std::pair<Inventory::Stype, int>(type, idx);
+    }
 }

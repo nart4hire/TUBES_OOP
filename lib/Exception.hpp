@@ -97,6 +97,15 @@ namespace mobicraft
         
         std::string what() const { return "No item is crafted yet."; }
     };
+
+    class InvalidCommandException : public Exception
+    {
+    public:
+        InvalidCommandException() : Exception(10) {}
+        ~InvalidCommandException() {}
+        
+        std::string what() const { return "Invalid command."; }
+    };
 }
 
 #endif

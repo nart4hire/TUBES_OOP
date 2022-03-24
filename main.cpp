@@ -2,14 +2,15 @@
 #include <iostream>
 #include <cctype>
 #include <sstream>
+#include <utility>
+#include <vector>
 
 #include "lib/Config.hpp"
 #include "lib/Inventory.hpp"
+#include "lib/Crafting.hpp"
 #include "lib/Exception.hpp"
 
 using namespace mobicraft;
-
-int toInt(std::string str);
 
 int main(int argc, char *argv[])
 {
@@ -47,10 +48,14 @@ int main(int argc, char *argv[])
   do
   {
     std::cout << "\n> ";
-    std::cin >> cmd;
+
+    std::string line;
+    std::getline(std::cin, line);
+    std::stringstream input(line);
 
     try
     {
+      input >> cmd;
       if (cmd == "HELP")
       {
         inv.Help();
@@ -63,49 +68,89 @@ int main(int argc, char *argv[])
       {
         std::string name;
         int qty;
-        std::cin >> name;
-        std::cin >> qty;
+        input >> name;
+        input >> qty;
+
+        if (input.fail())
+          throw InvalidQuantityException();
+
         inv.Give(config, name, qty);
       }
       else if (cmd == "DISCARD")
       {
         std::string id;
-        std::cin >> id;
+        input >> id;
 
-        if (id[0] == 'I')
-        {
-          int qty;
-          std::cin >> qty;
-          inv.Discard(toInt(id.substr(1)), qty);
-        }
+        auto parsed = Inventory::parseId(id);
+
+        int qty;
+        input >> qty;
+
+        if (input.fail())
+          throw InvalidQuantityException();
+
+        inv.Discard(parsed.second, qty);
       }
       else if (cmd == "USE")
       {
         std::string id;
-        std::cin >> id;
+        input >> id;
 
-        if (id[0] == 'I')
-          inv.Use(toInt(id.substr(1)));
+        auto parsed = Inventory::parseId(id);
+        inv.Use(parsed.second);
       }
       else if (cmd == "CRAFT")
       {
-        // CRAFT
+        Crafting craft(config, inv);
+        craft.crafting();
       }
       else if (cmd == "IMPORT")
       {
         std::string fname;
-        std::cin >> fname;
+        input >> fname;
         inv.Import(config, fname);
       }
       else if (cmd == "EXPORT")
       {
         std::string fname;
-        std::cin >> fname;
+        input >> fname;
         inv.Export(fname);
       }
       else if (cmd == "MOVE")
       {
-        // MOVE
+        std::string srcId;
+        input >> srcId;
+
+        auto src = Inventory::parseId(srcId);
+        int qty;
+        input >> qty;
+
+        if (input.fail())
+          throw InvalidQuantityException();
+
+        std::string destId;
+        input >> destId;
+
+        auto dest = Inventory::parseId(destId);
+
+        std::vector<int> dests;
+        dests.push_back(dest.second);
+
+        if (dest.first == Inventory::Cr)
+        {
+          while (input >> destId)
+          {
+            dest = Inventory::parseId(destId);
+            if (dest.first != Inventory::Cr)
+              throw InvalidCommandException();
+            dests.push_back(dest.second);
+          }
+
+          if (qty < dests.size())
+            throw InvalidCommandException();
+        }
+
+        inv.Move(src.first, src.second, qty, dest.first, {/* dests */});
       }
     }
     catch (const Exception &e)
@@ -122,12 +167,4 @@ int main(int argc, char *argv[])
   std::cout << "Goodbye.\n";
 
   return 0;
-}
-
-int toInt(std::string str)
-{
-  int val;
-  std::stringstream stream(str);
-  stream >> val;
-  return val;
 }

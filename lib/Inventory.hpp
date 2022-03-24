@@ -3,6 +3,7 @@
 
 #include <iterator>
 #include <map>
+#include <utility>
 #include "Exception.hpp"
 #include "Config.hpp"
 #include "Tool.hpp"
@@ -82,6 +83,9 @@ namespace mobicraft {
 
         // Prints help
         void Help();
+
+        // Returns slot type and index from a given id string
+        static std::pair<Stype, int> parseId(std::string);
     };
 
 }
