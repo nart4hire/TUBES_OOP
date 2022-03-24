@@ -30,39 +30,61 @@ namespace mobicraft {
 
         // Methods
 
+        // Inven getter
         Item* getInven(int idx);
 
+        // Inven setter
         void setInven(int idx, Item* item);
 
+        // Crinv getter
         Item* getCrinv(int idx);
 
+        // Crinv setter
         void setCrinv(int idx, Item* item);
 
-        void DeleteSlotContents(Stype, int); // Auxiliary for deleting items in inventory slots
+        // Return the minimum quantity of all items in Crinv
+        int getMinQtyInCrinv() const;
 
-        const int getMinimum(); // Gets index of ItemPTR of minimum empty slot
+        int sumCrinvToolsDurability() const;
 
-        const int getMinimumSameItem(Item&); // Gets Index of the same item with contents 0 <= x <= 64
+        // Auxiliary for deleting items in inventory slots
+        void DeleteSlotContents(Stype, int); 
 
-        const void Show(); // Menampilkan Isi Inven dan Crafting
+        // Gets index of ItemPTR of minimum empty slot
+        const int getMinimum();
 
-        void Give(Config&, std::string, int); // Menambahkan Item pada Inventory
+        // Gets Index of the same item with contents 0 <= x <= 64
+        const int getMinimumSameItem(Item&);
 
-        void Discard(int, int); // Membuang Item pada Inventory
+        // Menampilkan Isi Inven dan Crafting
+        const void Show(); 
 
-        const bool isCrash(Stype, int, Stype, int); // Auxiliary Function To Check for Item Crashing
+        // Menambahkan Item pada Inventory
+        void Give(Config&, std::string, int); 
 
-        void Move(Stype, int, int, Stype, int*); // Generic Handler for Move command
+        // Membuang Item pada Inventory
+        void Discard(int, int); 
 
-        void Use(int); // Use dari inventory
+        // Auxiliary Function To Check for Item Crashing
+        const bool isCrash(Stype, int, Stype, int); 
 
-        void Craft(); // Melakukan Crafting
+        // Generic Handler for Move command
+        void Move(Stype, int, int, Stype, int*); 
 
-        void Import(Config, std::string); // Import Inventory dari file .txt
+        // Use dari inventory
+        void Use(int); 
 
-        const void Export(std::string); // Melakukan export pada file .txt
+        // Melakukan Crafting
+        void Craft(); 
 
-        void Help(); // Prints help
+        // Import Inventory dari file .txt
+        void Import(Config, std::string); 
+
+        // Melakukan export pada file .txt
+        const void Export(std::string); 
+
+        // Prints help
+        void Help(); 
     };
 
 }

@@ -23,16 +23,6 @@ namespace mobicraft {
     }
 
     // Methods
-    void Inventory::DeleteSlotContents(Stype s, int i) {
-        if (s == Inv) {
-            delete this->Inven[i];
-            this->Inven[i] = nullptr;
-        } else if (s == Cr) {
-            delete this->Crinv[i];
-            this->Crinv[i] = nullptr;
-        }
-    } // Auxiliary for deleting items in inventory slots
-
     Item* Inventory::getInven(int idx){
         return Inven[idx];
     }
@@ -48,6 +38,50 @@ namespace mobicraft {
     void Inventory::setCrinv(int idx, Item* item){
         Crinv[idx] = item;
     }
+
+    int Inventory::getMinQtyInCrinv() const{
+        int min = 0;
+        for (int i = 0; i < 9; ++i){
+            if (Crinv[i] && Crinv[i]->isTool()){
+                return 1;
+            } 
+            else if (Crinv[i] && !Crinv[i]->isTool()){
+                if (min == 0){
+                    min = Crinv[i]->getAmt();
+                }
+                else if (min != 0 && Crinv[i]->getAmt() < min){
+                    min = Crinv[i]->getAmt();
+                }
+            }
+        }
+        return min;
+    }
+
+    int Inventory::sumCrinvToolsDurability() const{
+        int sumDurability = 0;
+        for (int i = 0; i < 9; ++i){
+            if (Crinv[i] && Crinv[i]->isTool()){
+                sumDurability += Crinv[i]->getAmt();
+            }
+        }
+
+        if (sumDurability <= 10){
+           return sumDurability;    
+        } else {
+            return 10;
+        }
+    }
+
+    void Inventory::DeleteSlotContents(Stype s, int i) {
+        if (s == Inv) {
+            delete this->Inven[i];
+            this->Inven[i] = nullptr;
+        } else if (s == Cr) {
+            delete this->Crinv[i];
+            this->Crinv[i] = nullptr;
+        }
+    } // Auxiliary for deleting items in inventory slots
+
 
     const int Inventory::getMinimum() {
         for (int i = 0; i < 27; i++) {
