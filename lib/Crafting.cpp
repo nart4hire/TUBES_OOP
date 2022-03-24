@@ -14,14 +14,22 @@ namespace mobicraft{
         
         // Add each item's name in Crinv to crinvConfig
         Grid<std::string> crinvConfig(3,3);
-        std::string itemName;
+        
+        int idx = 0;
+        for (int i = 0; i < 3; ++i){
+            for (int j = 0; j < 3; ++j){
+                if (this->inventory.getCrinv(idx)){
+                    if (this->inventory.getCrinv(idx)->hasType()){
+                        crinvConfig.at(i,j) = this->inventory.getCrinv(idx)->getType();
+                    } else {
+                        crinvConfig.at(i,j) = this->inventory.getCrinv(idx)->getName();
+                    }
 
-        for (int i = 0; i < 9; ++i){
-            if (this->inventory.getCrinv(i)){
-                itemName = this->inventory.getCrinv(i)->getName();
-                crinvConfig.pushBackElmt(itemName);
-            } else {
-                crinvConfig.pushBackElmt("-");
+                } else {
+                    crinvConfig.at(i,j) = "-";
+                }
+                
+                ++idx;
             }
         }
 
@@ -29,66 +37,67 @@ namespace mobicraft{
             throw new NothingSlotException();
 
         } else {
-            // Iterate on recipeList whether there is recipe's configuration which satisfies crinvConfig
+            // Crafting item by evaluating Crinv configuration over one of recipe
             auto recipeList = this->config.getRecipes();
+            int itemCraftedQty = 0;
+
             for (const auto& recipe : recipeList){
-                if (*recipe == crinvConfig && recipe->isRecipeTool()){
+                if (*recipe == crinvConfig){
                     this->minQtyUsed = this->inventory.getMinQtyInCrinv();
 
-                    if (this->isOnlyTwoSameTools(crinvConfig)){    
-                        this->craftedItem = new Tool(
-                                                recipe->id, recipe->name, recipe->type, 
-                                                this->inventory.sumCrinvToolsDurability()
-                                                );
-                    } else {
-                        this->craftedItem = new Tool(recipe->id, recipe->name, recipe->type);
-                    }
-                    
-                    break;
+                    if (recipe->isTool){
+                        if (this->isOnlyTwoSameTools(crinvConfig)){    
+                            this->craftedItem = new Tool(
+                                                    recipe->id, recipe->name, recipe->type, 
+                                                    this->inventory.sumCrinvToolsDurability());                                               
+                        } else {
+                            this->craftedItem = new Tool(recipe->id, recipe->name, recipe->type);
+                        }
 
-                } else if (*recipe == crinvConfig && !recipe->isRecipeTool()){
-                    int craftedItemQty = recipe->getAmt() * minQtyUsed;
-                    this->craftedItem = new NonTool(recipe->id, recipe->name, recipe->type, craftedItemQty);
+                        itemCraftedQty = 1;
+                    
+                    } else {
+                        itemCraftedQty = recipe->getAmt() * minQtyUsed;
+                        this->craftedItem = new NonTool(recipe->id, recipe->name, recipe->type, itemCraftedQty);
+                    }
+
                     break;
                 }
             }
+            
+            this->moveCraftedItemToInven(itemCraftedQty);
         }
     }
 
-    void Crafting::moveCraftedItemToInven(){
+    void Crafting::moveCraftedItemToInven(int& quantity){
         // I.S: this->craftedItem exists
         // F.S: 
         //  - craftedItem moved to Inven and deleted if there is slot available; Otherwise, do nothing
 
         if (!this->craftedItem){
-            throw new CraftedItemIsNotFound();
+            throw new CraftedItemNotFound();
 
         } else {
             // Move the crafted item to inventory
-            int craftedItemQty = 0;
+            inventory.Give(this->config, this->craftedItem->getName(), quantity); // Exception is possibly thrown
             
-            if (craftedItem->isTool()){
-                craftedItemQty = 1;
-            } else {
-                craftedItemQty = craftedItem->getAmt();
-            }
-            
-            inventory.Give(this->config, this->craftedItem->getName(), craftedItemQty);
-
             // Remove each item in Crinven as much as min quantity of items in Crinven 
             for (int i = 0; i < 9; ++i){
-                if (this->inventory.getCrinv(i) && this->inventory.getCrinv(i)->isTool()){
-                    this->inventory.DeleteSlotContents(this->inventory.Cr, i);
-                } else if (this->inventory.getCrinv(i) && !this->inventory.getCrinv(i)->isTool()) {
-                    int remainingQty = this->inventory.getCrinv(i)->getAmt() - minQtyUsed;
-                    if (remainingQty == 0){
+                if (this->inventory.getCrinv(i)){
+                    if (this->inventory.getCrinv(i)->isTool()){
                         this->inventory.DeleteSlotContents(this->inventory.Cr, i);
                     } else {
-                        this->inventory.getCrinv(i)->setAmt(remainingQty);
+                        int remainingQty = this->inventory.getCrinv(i)->getAmt() - this->minQtyUsed;
+                        if (remainingQty == 0){
+                            this->inventory.DeleteSlotContents(this->inventory.Cr, i);
+                        } else {
+                            this->inventory.getCrinv(i)->setAmt(remainingQty);
+                        }
                     }
                 }
             }
 
+            this->minQtyUsed = 0;
             delete this->craftedItem;
             this->craftedItem = nullptr;
         }
@@ -96,7 +105,7 @@ namespace mobicraft{
 
     bool Crafting::isOnlyTwoSameTools(Grid<std::string>& crinvConfig) const{
         // I.S: crinvConfig only contains tools item name
-        // F.S: Return true if Crinv configuration only contains two same tools
+        // F.S: Return true if crinvConfig only contains two same tools name
 
         int rows = crinvConfig.rows();
         int cols = crinvConfig.cols();
