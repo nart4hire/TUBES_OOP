@@ -33,7 +33,7 @@ namespace mobicraft{
                 if (this->isOnlyTwoSameTools(crinvConfig)){    
                     this->craftedItem = new Tool(
                                             recipe->id, recipe->name, recipe->type, 
-                                            this->sumCrinvToolsDurability(inventory)
+                                            inventory.sumCrinvToolsDurability()
                                             );
                     
 
@@ -47,7 +47,7 @@ namespace mobicraft{
             else if (*recipe == crinvConfig && !recipe->isRecipeTool()){
                 this->craftedItem = new NonTool(  
                                         recipe->id, recipe->name, recipe->type, 
-                                        recipe->getAmt() * this->getMinQtyInCrinv(inventory)
+                                        recipe->getAmt() * inventory.getMinQtyInCrinv()
                                         );
                 break;
             }
@@ -58,11 +58,13 @@ namespace mobicraft{
 
     void Crafting::moveCraftedItemToInven(Config& config, Inventory& inventory){
         // I.S: this->craftedItem exists
-        // F.S: this->craftedItem is destructed
+        // F.S: 
+        //  - craftedItem moved to Inven 
+        //  - this->craftedItem is destructed
 
         if (this->craftedItem){
             // Remove each item in Crinven as much as min quantity of items in Crinven 
-            int minQty = this->getMinQtyInCrinv(inventory);
+            int minQty = inventory.getMinQtyInCrinv();
 
             for (int i = 0; i < 9; ++i){
                 if (inventory.getCrinv(i)){
@@ -82,39 +84,6 @@ namespace mobicraft{
             // Move the crafted item to inventory
             inventory.Give(config, this->craftedItem->getName(), this->craftedItem->getAmt());
             this->~Crafting();
-        }
-    }
-
-    int Crafting::getMinQtyInCrinv(Inventory& inventory) const{
-        // Return the minimum quantity of all items in Crinv
-        
-        int min = 0;
-        for (int i = 1; i < 9; ++i){
-            if (inventory.getCrinv(i)){
-                if (inventory.getCrinv(i)->isTool()){
-                    return 1;
-                } else {
-                    if (inventory.getCrinv(i)->getAmt() < min){
-                        min = inventory.getCrinv(i)->getAmt();
-                    }
-                }
-            }
-        }
-        return min;
-    }
-
-    int Crafting::sumCrinvToolsDurability(Inventory& inventory) const{
-        int sumDurability = 0;
-        for (int i = 0; i < 9; ++i){
-            if (inventory.getCrinv(i) && inventory.getCrinv(i)->isTool()){
-                sumDurability += inventory.getCrinv(i)->getAmt();
-            }
-        }
-
-        if (sumDurability <= 10){
-           return sumDurability;    
-        } else {
-            return 10;
         }
     }
 
