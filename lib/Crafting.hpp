@@ -11,19 +11,21 @@ namespace mobicraft
     class Crafting{
         private:
             Item* craftedItem;
+            Config& config;
+            Inventory& inventory;
 
         public:
-            Crafting();
+            Crafting(Config& config, Inventory& inventory);
             ~Crafting();
 
             // F.S: If craftedItem exists, move the craftedItem to Inven
-            void crafting(Config& config, Inventory& inventory);
+            void crafting();
             
             // I.S: this->craftedItem exists
             // F.S: 
             //  - craftedItem moved to Inven 
             //  - this->craftedItem is destructed
-            void moveCraftedItemToInven(Config& config, Inventory& inventory);
+            void moveCraftedItemToInven(int& quantity);
             
             // I.S: crinvConfig only contains tools item name
             // F.S: Return true if Crinv configuration only contains two same tools
