@@ -2,7 +2,7 @@
 #include "Inventory.hpp"
 
 namespace mobicraft{
-    Crafting::Crafting(Config& c, Inventory& i) : craftedItem(nullptr), config(c), inventory(i){        
+    Crafting::Crafting(Config& c, Inventory& i) : craftedItem(nullptr), minQtyUsed(0), config(c), inventory(i){        
     }
 
     Crafting::~Crafting(){
@@ -28,7 +28,8 @@ namespace mobicraft{
         // Iterate on recipeList whether there is recipe's configuration which satisfies crinvConfig
         auto recipeList = this->config.getRecipes();
         int craftedItemQty = 0;
-        
+        this->minQtyUsed = this->inventory.getMinQtyInCrinv();
+
         for (const auto& recipe : recipeList){
             if (*recipe == crinvConfig && recipe->isRecipeTool()){
                 craftedItemQty = 1;
@@ -37,8 +38,6 @@ namespace mobicraft{
                                             recipe->id, recipe->name, recipe->type, 
                                             this->inventory.sumCrinvToolsDurability()
                                             );
-                    
-
                 } else {
                     this->craftedItem = new Tool(recipe->id, recipe->name, recipe->type);
                 }
@@ -47,7 +46,7 @@ namespace mobicraft{
             }
 
             else if (*recipe == crinvConfig && !recipe->isRecipeTool()){
-                craftedItemQty = recipe->getAmt() * this->inventory.getMinQtyInCrinv();
+                craftedItemQty = recipe->getAmt() * minQtyUsed;
                 this->craftedItem = new NonTool(recipe->id, recipe->name, recipe->type, craftedItemQty);
                 break;
             }
@@ -64,13 +63,11 @@ namespace mobicraft{
 
         if (this->craftedItem){
             // Remove each item in Crinven as much as min quantity of items in Crinven 
-            int minQty = this->inventory.getMinQtyInCrinv();
-
             for (int i = 0; i < 9; ++i){
                 if (this->inventory.getCrinv(i) && this->inventory.getCrinv(i)->isTool()){
                     this->inventory.DeleteSlotContents(this->inventory.Cr, i);
                 } else if (this->inventory.getCrinv(i) && !this->inventory.getCrinv(i)->isTool()) {
-                    int remainingQty = this->inventory.getCrinv(i)->getAmt() - minQty;
+                    int remainingQty = this->inventory.getCrinv(i)->getAmt() - minQtyUsed;
                     if (remainingQty <= 0){
                         this->inventory.DeleteSlotContents(this->inventory.Cr, i);
                     } else {
