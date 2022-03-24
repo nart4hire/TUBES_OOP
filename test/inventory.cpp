@@ -1,5 +1,5 @@
-#include "lib/Inventory.hpp"
-#include "lib/Config.hpp"
+#include "../lib/Inventory.hpp"
+#include "../lib/Config.hpp"
 
 using namespace mobicraft;
 
@@ -51,8 +51,8 @@ int main(int argc, char const *argv[])
     }
     I.Show();
 
-    I.Export("./Test.txt");
-    I.Import(config, "./Test.txt");
+    I.Export("./test/Test.txt");
+    I.Import(config, "./test/Test.txt");
 
     return 0;
 }
