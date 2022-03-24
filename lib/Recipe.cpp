@@ -28,10 +28,6 @@ namespace mobicraft
     return !(*this == table);
   }
 
-  bool Recipe::isRecipeTool(){
-    return this->isTool;
-  }
-
   ToolRecipe::ToolRecipe(int id, std::string name, std::string type)
       : Recipe(id, name, type, true)
   {
