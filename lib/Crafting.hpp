@@ -16,11 +16,17 @@ namespace mobicraft
             Crafting();
             ~Crafting();
 
-            Item& crafting(Config& config, Inventory& inventory); // Check whether Crinv satisfies one of recipe configuration
+            // If exists, return crafted item by inventory.Crinv
+            Item& crafting(Config& config, Inventory& inventory);
+            
             void moveCraftedItemToInven(Config& config, Inventory& inventory);
+
             int getMinimumQtyInCrinv(Inventory& inventory) const;
-            int sumTwoToolsDurability(Inventory& inventory) const;
-            bool isTwoSameTools(Grid<std::string>& crinvConfig) const;
+            
+            // Return true if crinvConfig only consists of two same tools
+            bool isOnlyTwoSameTools(Grid<std::string>& crinvConfig) const; 
+
+            int sumToolsDurability(Inventory& inventory) const;
     };
 };
 

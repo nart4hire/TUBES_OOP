@@ -31,10 +31,10 @@ namespace mobicraft{
         for (const auto& recipe : recipeList){
             if (*recipe == crinvConfig){
                 if (recipe->isRecipeTool()){
-                    if (this->isTwoSameTools(crinvConfig)){    
+                    if (this->isOnlyTwoSameTools(crinvConfig)){    
                         this->craftedItem = new Tool(
                                                 recipe->id, recipe->name, recipe->type, 
-                                                sumTwoToolsDurability(inventory)
+                                                sumToolsDurability(inventory)
                                                 );
 
                         return *craftedItem;
@@ -78,17 +78,12 @@ namespace mobicraft{
         }
         
         // Moving the crafted item to inventory
-        int id = craftedItem->getId();
-        std::string name = craftedItem->getName();
-        std::string type = craftedItem->getType();
-        int amt = craftedItem->getAmt();
-
         if (craftedItem->isTool()){
             int minEmptyIdx = inventory.getMinimum();
             inventory.setInven(minEmptyIdx, craftedItem);
 
         } else {
-            inventory.Give(config, name, amt);
+            inventory.Give(config, craftedItem->getName(), craftedItem->getAmt());
         }
     }
 
@@ -108,7 +103,7 @@ namespace mobicraft{
         return min;
     }
 
-    int Crafting::sumTwoToolsDurability(Inventory& inventory) const{
+    int Crafting::sumToolsDurability(Inventory& inventory) const{
 
         int sumDurability = 0;
         for (int i = 0; i < 9; ++i){
@@ -124,7 +119,7 @@ namespace mobicraft{
         }
     }
 
-    bool Crafting::isTwoSameTools(Grid<std::string>& crinvConfig) const{
+    bool Crafting::isOnlyTwoSameTools(Grid<std::string>& crinvConfig) const{
         // Return true if Crinv configuration only consists of two same tools
 
         int rows = crinvConfig.rows();
