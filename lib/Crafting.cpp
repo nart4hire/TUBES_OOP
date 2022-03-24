@@ -60,30 +60,31 @@ namespace mobicraft{
         // I.S: this->craftedItem exists
         // F.S: 
         //  - craftedItem moved to Inven 
-        //  - this->craftedItem is destructed
+        //  - this->craftedItem is deleted
 
         if (this->craftedItem){
             // Remove each item in Crinven as much as min quantity of items in Crinven 
             int minQty = inventory.getMinQtyInCrinv();
 
             for (int i = 0; i < 9; ++i){
-                if (inventory.getCrinv(i)){
-                    if (inventory.getCrinv(i)->isTool()){
-                        inventory.setCrinv(i, nullptr);
+                if (inventory.getCrinv(i) && inventory.getCrinv(i)->isTool()){
+                    inventory.DeleteSlotContents(inventory.Cr, i);
+                } else if (inventory.getCrinv(i) && !inventory.getCrinv(i)->isTool()) {
+                    int remainingQty = inventory.getCrinv(i)->getAmt() - minQty;
+                    if (remainingQty <= 0){
+                        inventory.DeleteSlotContents(inventory.Cr, i);
                     } else {
-                        int remainingQty = inventory.getCrinv(i)->getAmt() - minQty;
-                        if (remainingQty <= 0){
-                            inventory.setCrinv(i, nullptr);
-                        } else {
-                            inventory.getCrinv(i)->setAmt(remainingQty);
-                        }
+                        inventory.getCrinv(i)->setAmt(remainingQty);
                     }
                 }
             }
             
             // Move the crafted item to inventory
             inventory.Give(config, this->craftedItem->getName(), this->craftedItem->getAmt());
-            this->~Crafting();
+
+            // Inven full exception
+            delete craftedItem;
+            craftedItem = nullptr;
         }
     }
 
