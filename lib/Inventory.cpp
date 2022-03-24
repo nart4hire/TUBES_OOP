@@ -269,18 +269,21 @@ namespace mobicraft {
         else this->DeleteSlotContents(Inv, i);
     } // Use dari inventory
 
-    void Inventory::Craft() {
+    void Inventory::Import(Config& c, std::string path) {
+        std::ifstream inf(path);
+        std::string line, token, num;
+        std::string delimiter = ":";
 
-    } // Melakukan Crafting
+        while(std::getline(inf, line)) {
+            token = line.substr(0, line.find(delimiter));
+            num = line.erase(0, line.find(delimiter) + delimiter.length());
+            std::cout << token << ":" << num << std::endl;
+        }
 
-    void Inventory::Import(Config c, std::string) {
-        std::cout << "Not Implemented" << std::endl;
-        // Belum Bisa Implement, Tool gaada getter setter
     } // Import Inventory dari file .txt
 
     const void Inventory::Export(std::string path) {
-        std::ofstream of;
-        of.open(path);
+        std::ofstream of(path);
         int idx[1];
 
         try {

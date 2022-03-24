@@ -48,7 +48,7 @@ namespace mobicraft {
         int sumCrinvToolsDurability() const;
 
         // Auxiliary for deleting items in inventory slots
-        void DeleteSlotContents(Stype, int); 
+        void DeleteSlotContents(Stype, int);
 
         // Gets index of ItemPTR of minimum empty slot
         const int getMinimum();
@@ -57,34 +57,31 @@ namespace mobicraft {
         const int getMinimumSameItem(Item&);
 
         // Menampilkan Isi Inven dan Crafting
-        const void Show(); 
+        const void Show();
 
         // Menambahkan Item pada Inventory
-        void Give(Config&, std::string, int); 
+        void Give(Config&, std::string, int);
 
         // Membuang Item pada Inventory
-        void Discard(int, int); 
+        void Discard(int, int);
 
         // Auxiliary Function To Check for Item Crashing
-        const bool isCrash(Stype, int, Stype, int); 
+        const bool isCrash(Stype, int, Stype, int);
 
         // Generic Handler for Move command
-        void Move(Stype, int, int, Stype, int*); 
+        void Move(Stype, int, int, Stype, int*);
 
         // Use dari inventory
-        void Use(int); 
-
-        // Melakukan Crafting
-        void Craft(); 
+        void Use(int);
 
         // Import Inventory dari file .txt
-        void Import(Config, std::string); 
+        void Import(Config&, std::string);
 
         // Melakukan export pada file .txt
-        const void Export(std::string); 
+        const void Export(std::string);
 
         // Prints help
-        void Help(); 
+        void Help();
     };
 
 }
