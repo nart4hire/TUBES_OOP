@@ -67,6 +67,18 @@ int main(int argc, char *argv[])
         std::cin >> qty;
         inv.Give(config, name, qty);
       }
+      else if (cmd == "DISCARD")
+      {
+        std::string id;
+        std::cin >> id;
+
+        if (id[0] == 'I')
+        {
+          int qty;
+          std::cin >> qty;
+          inv.Discard(toInt(id.substr(1)), qty);
+        }
+      }
       else if (cmd == "USE")
       {
         std::string id;
