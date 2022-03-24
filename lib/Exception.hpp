@@ -88,6 +88,16 @@ namespace mobicraft
 
         std::string what() const { return "Error accessing config file."; }
     };
+
+    class CraftedItemIsNotFound : public Exception
+    {
+    public:
+        CraftedItemIsNotFound() : Exception(9) {}
+        ~CraftedItemIsNotFound() {}
+
+        std::string what() { return "No item is crafted yet."; }
+        std::string what() const { return "No item is crafted yet."; }
+    };
 }
 
 #endif

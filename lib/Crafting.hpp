@@ -18,12 +18,6 @@ namespace mobicraft
             Config& config;
             Inventory& inventory;
 
-            // I.S: this->craftedItem exists
-            // F.S: 
-            //  - craftedItem moved to Inven 
-            //  - this->craftedItem is destructed
-            void moveCraftedItemToInven(int& quantity);
-
             // I.S: crinvConfig only contains tools item name
             // F.S: Return true if Crinv configuration only contains two same tools
             bool isOnlyTwoSameTools(Grid<std::string>& crinvConfig) const; 
@@ -32,9 +26,13 @@ namespace mobicraft
             Crafting(Config& c, Inventory& i);
             ~Crafting();
 
-            // F.S: If craftedItem exists, move the craftedItem to Inven
+            // F.S: craftedItem is successfully crafted or unsuccessful
             void crafting();
             
+            // I.S: this->craftedItem exists
+            // F.S: - craftedItem moved to Inven 
+            //      - this->craftedItem is destructed
+            void moveCraftedItemToInven();
     };
 };
 
