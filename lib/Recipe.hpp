@@ -24,7 +24,9 @@ namespace mobicraft
     bool isCraftable() const;
     bool operator==(const Grid<std::string> &table) const;
     bool operator!=(const Grid<std::string> &table) const;
+    bool isRecipeTool();
 
+    virtual int getAmt() = 0;
     virtual void set(const Grid<std::string> &recipe, int quantity) = 0;
     virtual Item *create() = 0;
   };
@@ -32,12 +34,13 @@ namespace mobicraft
   class ToolRecipe : public Recipe
   {
   private:
-    const int durability = NonTool::MaxQuantity;
+    const int durability = Tool::MaxDurability;
 
   public:
     ToolRecipe(int id, std::string name, std::string type);
     void set(const Grid<std::string> &recipe, int quantity);
     Item *create();
+    int getAmt();
   };
 
   class NonToolRecipe : public Recipe
@@ -47,8 +50,10 @@ namespace mobicraft
 
   public:
     NonToolRecipe(int id, std::string name, std::string type);
+    
     void set(const Grid<std::string> &recipe, int quantity);
     Item *create();
+    int getAmt();
   };
 }
 
