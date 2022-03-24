@@ -15,7 +15,6 @@ namespace mobicraft {
     private:
         Item **Inven;
         Item **Crinv;
-        bool isCraftable;
 
     public:
         enum Stype {Inv = 0, Cr = 1}; // Declare
@@ -31,10 +30,15 @@ namespace mobicraft {
 
         // Methods
 
-        void DeleteSlotContents(Stype, int); // Auxiliary for deleting items in inventory slots
+        Item* getInven(int idx);
 
-        void compareCrinvRecipe(Config&); // Check whether Crinv satisfies one of recipe configuration
-        void makeCrinvEmpty();
+        void setInven(int idx, Item* item);
+
+        Item* getCrinv(int idx);
+
+        void setCrinv(int idx, Item* item);
+
+        void DeleteSlotContents(Stype, int); // Auxiliary for deleting items in inventory slots
 
         const int getMinimum(); // Gets index of ItemPTR of minimum empty slot
 

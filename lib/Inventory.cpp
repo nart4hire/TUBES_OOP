@@ -4,7 +4,7 @@
 
 namespace mobicraft {
     // ctor
-    Inventory::Inventory() : isCraftable(false){
+    Inventory::Inventory(){
         this->Inven = new Item*[27];
         for (int i = 0; i < 27; i++) this->Inven[i] = nullptr;
         this->Crinv = new Item*[9];
@@ -33,40 +33,12 @@ namespace mobicraft {
         }
     } // Auxiliary for deleting items in inventory slots
 
-    void Inventory::compareCrinvRecipe(Config& config){
-        Grid<std::string> CrinvOfItemName(3,3);
-
-        int crinvIterator = 0;
-        std::string nameAtCrinvIterator = "";
-
-        for (int i = 0; i < 3; ++i){
-            for (int j = 0; j < 3; ++j){
-                if (this->Crinv[crinvIterator]){
-                    if (Crinv[crinvIterator]->hasType()) {
-                        nameAtCrinvIterator = Crinv[crinvIterator]->getType();
-                    } else {
-                        nameAtCrinvIterator = Crinv[crinvIterator]->getName();
-                    }
-                    CrinvOfItemName.at(i, j) = nameAtCrinvIterator;
-                } else {
-                    CrinvOfItemName.at(i, j) = "-";
-                }
-                ++crinvIterator;
-            }
-        }
-
-        auto recipeList = config.getRecipes();
-        for (const auto& recipe : recipeList){
-            if (*recipe == CrinvOfItemName){
-                isCraftable = true;
-            }
-        }
+    Item* Inventory::getInven(int idx){
+        return Inven[idx];
     }
 
-    void Inventory::makeCrinvEmpty(){
-        for (int i = 0; i < 9; ++i){
-            this->DeleteSlotContents(Cr, i);
-        }
+    Item* Inventory::getCrinv(int idx){
+        return Crinv[idx];
     }
 
     const int Inventory::getMinimum() {
