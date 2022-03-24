@@ -19,7 +19,7 @@ test: $(TC_FOLDER)/*.$(EXT_IN) $(EXECUTABLE_FILENAME)
 	done;
 
 testinv:
-	g++ -o testinv testinv.cpp $(filter-out main.cpp, $(SRCS))
+	g++ -o testinv testinv.cpp $(filter-out main.cpp lib/Crafting.cpp, $(SRCS))
 
 # Check
 check: FORCE check.cpp

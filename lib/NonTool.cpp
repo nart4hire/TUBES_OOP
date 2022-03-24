@@ -31,8 +31,8 @@ namespace mobicraft {
         return (this->quantity == MaxQuantity);
     }
 
-    void NonTool::what(std::ostream& os) {
-        Item::what(os);
+    void NonTool::what(std::ostream& os) const {
+        this->Item::what(os);
         os << " " << this->quantity;
     }
 }

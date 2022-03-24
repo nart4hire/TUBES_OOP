@@ -22,12 +22,12 @@ namespace mobicraft {
     }
 
     void Item::what(std::ostream& os) const {
-        os << name;
+        os << this->name;
     }
 
-    std::ostream& operator<<(std::ostream& os, const Item& item)
+    std::ostream& operator<<(std::ostream& os, const Item* item)
     {
-        item.what(os);
+        item->what(os);
         return os;
     }
 

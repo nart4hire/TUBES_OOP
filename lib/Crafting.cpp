@@ -2,15 +2,14 @@
 #include "Inventory.hpp"
 
 namespace mobicraft{
-    Crafting::Crafting(){
-        craftedItem = nullptr;
+    Crafting::Crafting(Config& c, Inventory& i) : craftedItem(nullptr), minQtyUsed(0), config(c), inventory(i){        
     }
 
     Crafting::~Crafting(){
         delete craftedItem;
     }
 
-    void Crafting::crafting(Config& config, Inventory& inventory){
+    void Crafting::crafting(){
         // F.S: If craftedItem exists, move the craftedItem to Inven
         
         // Add each item's name in Crinv to crinvConfig
@@ -18,8 +17,8 @@ namespace mobicraft{
         std::string itemName;
 
         for (int i = 0; i < 9; ++i){
-            if (inventory.getCrinv(i)){
-                itemName = inventory.getCrinv(i)->getName();
+            if (this->inventory.getCrinv(i)){
+                itemName = this->inventory.getCrinv(i)->getName();
                 crinvConfig.pushBackElmt(itemName);
             } else {
                 crinvConfig.pushBackElmt("-");
@@ -27,16 +26,18 @@ namespace mobicraft{
         }
 
         // Iterate on recipeList whether there is recipe's configuration which satisfies crinvConfig
-        auto recipeList = config.getRecipes();
+        auto recipeList = this->config.getRecipes();
+        int craftedItemQty = 0;
+        this->minQtyUsed = this->inventory.getMinQtyInCrinv();
+
         for (const auto& recipe : recipeList){
             if (*recipe == crinvConfig && recipe->isRecipeTool()){
+                craftedItemQty = 1;
                 if (this->isOnlyTwoSameTools(crinvConfig)){    
                     this->craftedItem = new Tool(
                                             recipe->id, recipe->name, recipe->type, 
-                                            inventory.sumCrinvToolsDurability()
+                                            this->inventory.sumCrinvToolsDurability()
                                             );
-                    
-
                 } else {
                     this->craftedItem = new Tool(recipe->id, recipe->name, recipe->type);
                 }
@@ -45,18 +46,16 @@ namespace mobicraft{
             }
 
             else if (*recipe == crinvConfig && !recipe->isRecipeTool()){
-                this->craftedItem = new NonTool(  
-                                        recipe->id, recipe->name, recipe->type, 
-                                        recipe->getAmt() * inventory.getMinQtyInCrinv()
-                                        );
+                craftedItemQty = recipe->getAmt() * minQtyUsed;
+                this->craftedItem = new NonTool(recipe->id, recipe->name, recipe->type, craftedItemQty);
                 break;
             }
         }
         
-        this->moveCraftedItemToInven(config, inventory);
+        this->moveCraftedItemToInven(craftedItemQty);
     }
 
-    void Crafting::moveCraftedItemToInven(Config& config, Inventory& inventory){
+    void Crafting::moveCraftedItemToInven(int& quantity){
         // I.S: this->craftedItem exists
         // F.S: 
         //  - craftedItem moved to Inven 
@@ -64,27 +63,26 @@ namespace mobicraft{
 
         if (this->craftedItem){
             // Remove each item in Crinven as much as min quantity of items in Crinven 
-            int minQty = inventory.getMinQtyInCrinv();
-
             for (int i = 0; i < 9; ++i){
-                if (inventory.getCrinv(i) && inventory.getCrinv(i)->isTool()){
-                    inventory.DeleteSlotContents(inventory.Cr, i);
-                } else if (inventory.getCrinv(i) && !inventory.getCrinv(i)->isTool()) {
-                    int remainingQty = inventory.getCrinv(i)->getAmt() - minQty;
+                if (this->inventory.getCrinv(i) && this->inventory.getCrinv(i)->isTool()){
+                    this->inventory.DeleteSlotContents(this->inventory.Cr, i);
+                } else if (this->inventory.getCrinv(i) && !this->inventory.getCrinv(i)->isTool()) {
+                    int remainingQty = this->inventory.getCrinv(i)->getAmt() - minQtyUsed;
                     if (remainingQty <= 0){
-                        inventory.DeleteSlotContents(inventory.Cr, i);
+                        this->inventory.DeleteSlotContents(this->inventory.Cr, i);
                     } else {
-                        inventory.getCrinv(i)->setAmt(remainingQty);
+                        this->inventory.getCrinv(i)->setAmt(remainingQty);
                     }
                 }
             }
             
             // Move the crafted item to inventory
-            inventory.Give(config, this->craftedItem->getName(), this->craftedItem->getAmt());
+            inventory.Give(this->config, this->craftedItem->getName(), quantity);
 
-            // Inven full exception
-            delete craftedItem;
-            craftedItem = nullptr;
+            // <Inven full exception>
+
+            delete this->craftedItem;
+            this->craftedItem = nullptr;
         }
     }
 
