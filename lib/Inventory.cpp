@@ -264,9 +264,10 @@ namespace mobicraft {
     } // Generic Handler for Move command
 
     void Inventory::Use(int i) {
+        if (this->Inven[i] == nullptr) throw NotExistsException();
         if (!this->Inven[i]->isTool()) throw WrongTypeException();
-        if (this->Inven[i]->getAmt() > 0) this->Inven[i]->use();
-        else this->DeleteSlotContents(Inv, i);
+        this->Inven[i]->use();
+        if (this->Inven[i]->getAmt() == 0) this->DeleteSlotContents(Inv, i);
     } // Use dari inventory
 
     void Inventory::Import(Config& c, std::string path) {

@@ -11,10 +11,9 @@ namespace mobicraft {
     Tool::~Tool() {}
 
     void Tool::use() {
-        if (this->durability != 1) {
-            this->durability--;
-        } else {
-            this->~Tool();
+        this->durability--;
+        std::cout << "Using " << this->name << "." << std::endl;
+        if (this->durability == 0) {
             std::cout << "The tool " << this->name << " broke." << std::endl;
         }
     }

@@ -1,7 +1,6 @@
 #include <string>
 #include <iostream>
 #include <cctype>
-#include <vector>
 #include <sstream>
 
 #include "lib/Config.hpp"
@@ -9,6 +8,8 @@
 #include "lib/Exception.hpp"
 
 using namespace mobicraft;
+
+int toInt(std::string str);
 
 int main(int argc, char *argv[])
 {
@@ -68,8 +69,11 @@ int main(int argc, char *argv[])
       }
       else if (cmd == "USE")
       {
-        std::string name;
-        std::cin >> name;
+        std::string id;
+        std::cin >> id;
+
+        if (id[0] == 'I')
+          inv.Use(toInt(id.substr(1)));
       }
       else if (cmd == "CRAFT")
       {
@@ -106,4 +110,12 @@ int main(int argc, char *argv[])
   std::cout << "Goodbye.\n";
 
   return 0;
+}
+
+int toInt(std::string str)
+{
+  int val;
+  std::stringstream stream(str);
+  stream >> val;
+  return val;
 }
