@@ -12,7 +12,7 @@ namespace mobicraft
         private:
             Item* craftedItem;
 
-            // Minimum quantity used in crafting item for each Crinv's item
+            // Minimum quantity being used for each Crinv's item when crafting item 
             int minQtyUsed;
 
             Config& config;
@@ -24,14 +24,16 @@ namespace mobicraft
 
             // I.S: this->craftedItem exists
             // F.S: - craftedItem moved to Inven 
-            //      - this->craftedItem is destructed
+            //      - some or all items in Crinv removed
+            //      - this->craftedItem is deleted
             void moveCraftedItemToInven(int& quantity);
 
         public:
             Crafting(Config& c, Inventory& i);
             ~Crafting();
 
-            // F.S: craftedItem is successfully crafted or unsuccessful
+            // I.S: Crinven is not empty
+            // F.S: if crafting is successful, move the craftedItem to Inven 
             void crafting();
             
     };
