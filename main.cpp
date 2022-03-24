@@ -4,6 +4,7 @@
 
 #include "lib/Config.hpp"
 #include "lib/Inventory.hpp"
+#include "lib/Exception.hpp"
 
 using namespace mobicraft;
 
@@ -25,8 +26,15 @@ int main(int argc, char *argv[])
   }
 
   Config config(itemsFile, recipesDir);
+  try {
+    config.load();
+  } catch (const Exception &e) {
+    std::cout << "Error while loading config file:\n" << e.what() << "\n";
+    exit(1);
+  }
 
   std::cout << "Welcome to MOBICRAFT. Type HELP for help, QUIT to quit.\n";
+  config.printStatus();
 
   Inventory inv;
 

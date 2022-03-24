@@ -14,11 +14,6 @@ namespace mobicraft
   Config::Config(std::string itemsFile, std::string recipesDir)
       : itemsFile(itemsFile), recipesDir(recipesDir)
   {
-    loadItems();
-    for (auto const &i : recipesList)
-    {
-      loadRecipe(i->name);
-    }
   }
 
   Config::~Config()
@@ -26,6 +21,15 @@ namespace mobicraft
     for (auto const &i : recipesList)
     {
       delete i;
+    }
+  }
+
+  void Config::load()
+  {
+    loadItems();
+    for (auto const &i : recipesList)
+    {
+      loadRecipe(i->name);
     }
   }
 
@@ -106,5 +110,18 @@ namespace mobicraft
     } catch (const std::out_of_range &err) {
       throw NotExistsException();
     }
+  }
+
+  void Config::printStatus() const
+  {
+    int craftables = 0;
+    for (const auto &i : recipesList)
+    {
+      if (i->isCraftable())
+        ++craftables;
+    }
+
+    std::cout << "Successfully loaded " << recipesList.size() << " items and "
+              << craftables << " recipes.\n";
   }
 }

@@ -13,8 +13,8 @@ namespace mobicraft
         Exception(int id) : id(id) {}
         ~Exception() {}
 
-        int getId() { return this->id; }
-        virtual std::string what() = 0;
+        int getId() const { return this->id; }
+        virtual std::string what() const = 0;
     };
 
     class NothingSlotException : public Exception
@@ -23,7 +23,7 @@ namespace mobicraft
         NothingSlotException() : Exception(1) {}
         ~NothingSlotException() {}
 
-        std::string what() { return "Nothing was in source slot."; }
+        std::string what() const { return "Nothing was in source slot."; }
     };
 
     class CrashSlotException : public Exception
@@ -32,7 +32,7 @@ namespace mobicraft
         CrashSlotException() : Exception(2) {}
         ~CrashSlotException() {}
 
-        std::string what() { return "Something different already in destination slot."; }
+        std::string what() const { return "Something different already in destination slot."; }
     };
 
     class NumberTooBigException : public Exception
@@ -41,7 +41,7 @@ namespace mobicraft
         NumberTooBigException() : Exception(3) {}
         ~NumberTooBigException() {}
 
-        std::string what() { return "Number inputed was too big."; }
+        std::string what() const { return "Number inputed was too big."; }
     };
 
     class NotExistsException : public Exception
@@ -50,7 +50,7 @@ namespace mobicraft
         NotExistsException() : Exception(4) {}
         ~NotExistsException() {}
 
-        std::string what() { return "Input does not exist."; }
+        std::string what() const { return "Input does not exist."; }
     };
 
     class WrongTypeException : public Exception
@@ -59,7 +59,7 @@ namespace mobicraft
         WrongTypeException() : Exception(5) {}
         ~WrongTypeException() {}
 
-        std::string what() { return "Input of the wrong type."; }
+        std::string what() const { return "Input of the wrong type."; }
     };
 
     class ContainerFullException : public Exception
@@ -68,7 +68,7 @@ namespace mobicraft
         ContainerFullException() : Exception(6) {}
         ~ContainerFullException() {}
 
-        std::string what() { return "Object Buffer is already full type."; }
+        std::string what() const { return "Object Buffer is already full type."; }
     };
 
     class InvalidQuantityException : public Exception
@@ -77,7 +77,7 @@ namespace mobicraft
         InvalidQuantityException() : Exception(7) {}
         ~InvalidQuantityException() {}
 
-        std::string what() { return "Invalid quantity."; }
+        std::string what() const { return "Invalid quantity."; }
     };
 
     class ConfigFileException : public Exception
@@ -86,7 +86,7 @@ namespace mobicraft
         ConfigFileException() : Exception(8) {}
         ~ConfigFileException() {}
 
-        std::string what() { return "Error accessing config file."; }
+        std::string what() const { return "Error accessing config file."; }
     };
 }
 
