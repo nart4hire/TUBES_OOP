@@ -16,8 +16,8 @@ namespace mobicraft
             Crafting();
             ~Crafting();
 
-            // If exists, return crafted item by inventory.Crinv; otherwise, return nullPtr
-            Item& crafting(Config& config, Inventory& inventory);
+            // F.S: If craftedItem exists, move the craftedItem to Inven
+            void crafting(Config& config, Inventory& inventory);
             
             // I.S: this->craftedItem exists
             // F.S: craftedItem is destructed

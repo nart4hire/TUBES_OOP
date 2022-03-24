@@ -10,8 +10,8 @@ namespace mobicraft{
         delete craftedItem;
     }
 
-    Item& Crafting::crafting(Config& config, Inventory& inventory){
-        // If exist, return crafted item of inventory.Crinv
+    void Crafting::crafting(Config& config, Inventory& inventory){
+        // F.S: If craftedItem exists, move the craftedItem to Inven
         
         // Add each item's name in Crinv to crinvConfig
         Grid<std::string> crinvConfig(3,3);
@@ -29,32 +29,31 @@ namespace mobicraft{
         // Iterate on recipeList whether there is recipe's configuration which satisfies crinvConfig
         auto recipeList = config.getRecipes();
         for (const auto& recipe : recipeList){
-            if (*recipe == crinvConfig){
-                if (recipe->isRecipeTool()){
-                    if (this->isOnlyTwoSameTools(crinvConfig)){    
-                        this->craftedItem = new Tool(
-                                                recipe->id, recipe->name, recipe->type, 
-                                                this->sumCrinvToolsDurability(inventory)
-                                                );
-
-                        return *craftedItem;
-
-                    } else {
-                        this->craftedItem = new Tool(recipe->id, recipe->name, recipe->type);
-                        return *craftedItem;
-                    }
-
-                } else {
-                    this->craftedItem = new NonTool(  
+            if (*recipe == crinvConfig && recipe->isRecipeTool()){
+                if (this->isOnlyTwoSameTools(crinvConfig)){    
+                    this->craftedItem = new Tool(
                                             recipe->id, recipe->name, recipe->type, 
-                                            recipe->getAmt() * this->getMinQtyInCrinv(inventory)
+                                            this->sumCrinvToolsDurability(inventory)
                                             );
                     
-                    return *craftedItem;
-                }   
+
+                } else {
+                    this->craftedItem = new Tool(recipe->id, recipe->name, recipe->type);
+                }
+
+                break;
+            }
+
+            else if (*recipe == crinvConfig && !recipe->isRecipeTool()){
+                this->craftedItem = new NonTool(  
+                                        recipe->id, recipe->name, recipe->type, 
+                                        recipe->getAmt() * this->getMinQtyInCrinv(inventory)
+                                        );
+                break;
             }
         }
-        return *craftedItem; // nullPtr
+        
+        this->moveCraftedItemToInven(config, inventory);
     }
 
     void Crafting::moveCraftedItemToInven(Config& config, Inventory& inventory){
