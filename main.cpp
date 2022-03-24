@@ -152,6 +152,10 @@ int main(int argc, char *argv[])
 
         inv.Move(src.first, src.second, qty, dest.first, {/* dests */});
       }
+      else
+      {
+        throw InvalidCommandException();
+      }
     }
     catch (const Exception &e)
     {
