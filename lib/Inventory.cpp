@@ -131,7 +131,7 @@ namespace mobicraft {
         int minSameIdx, remainder;
 
         // Inventory Full
-        if (this->getMinimum() == -1) throw new ContainerFullException();
+        if (this->getMinimum() == -1) throw ContainerFullException();
 
         const Recipe *r = c.getRecipe(s);
         if (r->isTool) {
@@ -159,7 +159,7 @@ namespace mobicraft {
     } // Menambahkan Item pada Inventory
 
     void Inventory::Discard(int i, int n) {
-        if (this->Inven[i] == nullptr) throw new NothingSlotException();
+        if (this->Inven[i] == nullptr) throw NothingSlotException();
         if (this->Inven[i]->isTool()) {
             this->DeleteSlotContents(Inv, i);
         } else {
@@ -168,7 +168,7 @@ namespace mobicraft {
             } else if (this->Inven[i]->getAmt() == n) {
                 this->DeleteSlotContents(Inv, i);
             } else {
-                throw new NumberTooBigException();
+                throw NumberTooBigException();
             }
         }
     } // Membuang Item pada Inventory
@@ -193,10 +193,10 @@ namespace mobicraft {
         int moved;
         // Type 1
         if (src == Inv && dst == Cr) {
-            if (this->Inven[i] == nullptr) throw new NotExistsException();
-            if ((this->Inven[i]->isTool() && n > 1) || (this->Inven[i]->getAmt() < n)) throw new NumberTooBigException();
+            if (this->Inven[i] == nullptr) throw NotExistsException();
+            if ((this->Inven[i]->isTool() && n > 1) || (this->Inven[i]->getAmt() < n)) throw NumberTooBigException();
             for (int it = 0; it < n; it++) {
-                if (this->isCrash(src, i, dst, j[it])) throw new CrashSlotException();
+                if (this->isCrash(src, i, dst, j[it])) throw CrashSlotException();
             }
 
             if (n == 1 && this->Crinv[j[0]] == nullptr) {
@@ -219,13 +219,13 @@ namespace mobicraft {
                     if (this->Inven[i]->getAmt() == 0) this->DeleteSlotContents(Inv, i);
                 }
             } else {
-                throw new WrongTypeException();
+                throw WrongTypeException();
             }
         }
         // Type 2
         else if (src == Inv && dst == Inv) {
-            if (this->Inven[i] == nullptr) throw new NotExistsException();
-            if (this->isCrash(src, i, dst, j[0])) throw new CrashSlotException();
+            if (this->Inven[i] == nullptr) throw NotExistsException();
+            if (this->isCrash(src, i, dst, j[0])) throw CrashSlotException();
 
             if (this->Inven[j[0]] == nullptr) {
                 this->Inven[j[0]] = this->Inven[i];
@@ -244,8 +244,8 @@ namespace mobicraft {
         }
         // Type 3
         else if (src == Cr && dst == Inv) {
-            if (this->Crinv[i] == nullptr) throw new NotExistsException();
-            if (this->isCrash(src, i, dst, j[0])) throw new CrashSlotException();
+            if (this->Crinv[i] == nullptr) throw NotExistsException();
+            if (this->isCrash(src, i, dst, j[0])) throw CrashSlotException();
 
             if (this->Inven[j[0]] == nullptr) {
                 this->Inven[j[0]] = this->Crinv[i];
@@ -264,7 +264,7 @@ namespace mobicraft {
     } // Generic Handler for Move command
 
     void Inventory::Use(int i) {
-        if (!this->Inven[i]->isTool()) throw new WrongTypeException();
+        if (!this->Inven[i]->isTool()) throw WrongTypeException();
         if (this->Inven[i]->getAmt() > 0) this->Inven[i]->use();
         else this->DeleteSlotContents(Inv, i);
     } // Use dari inventory

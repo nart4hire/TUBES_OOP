@@ -1,14 +1,14 @@
 #include <string>
 #include <iostream>
 #include <cctype>
+#include <vector>
+#include <sstream>
 
 #include "lib/Config.hpp"
 #include "lib/Inventory.hpp"
 #include "lib/Exception.hpp"
 
 using namespace mobicraft;
-
-void printHelp();
 
 int main(int argc, char *argv[])
 {
@@ -26,10 +26,14 @@ int main(int argc, char *argv[])
   }
 
   Config config(itemsFile, recipesDir);
-  try {
+  try
+  {
     config.load();
-  } catch (const Exception &e) {
-    std::cout << "Error while loading config file:\n" << e.what() << "\n";
+  }
+  catch (const Exception &e)
+  {
+    std::cout << "Error while loading config file:\n"
+              << e.what() << "\n";
     exit(1);
   }
 
@@ -39,17 +43,63 @@ int main(int argc, char *argv[])
   Inventory inv;
 
   std::string cmd;
-  do {
-    std::cout << "> ";
+  do
+  {
+    std::cout << "\n> ";
     std::cin >> cmd;
 
-    if (cmd == "HELP")
+    try
     {
-      inv.Help();
+      if (cmd == "HELP")
+      {
+        inv.Help();
+      }
+      else if (cmd == "SHOW")
+      {
+        inv.Show();
+      }
+      else if (cmd == "GIVE")
+      {
+        std::string name;
+        int qty;
+        std::cin >> name;
+        std::cin >> qty;
+        inv.Give(config, name, qty);
+      }
+      else if (cmd == "USE")
+      {
+        std::string name;
+        std::cin >> name;
+      }
+      else if (cmd == "CRAFT")
+      {
+        // CRAFT
+      }
+      else if (cmd == "IMPORT")
+      {
+        std::string fname;
+        std::cin >> fname;
+        inv.Import(config, fname);
+      }
+      else if (cmd == "EXPORT")
+      {
+        std::string fname;
+        std::cin >> fname;
+        inv.Export(fname);
+      }
+      else if (cmd == "MOVE")
+      {
+        // MOVE
+      }
     }
-    else if (cmd == "SHOW")
+    catch (const Exception &e)
     {
-      inv.Show();
+      std::cout << "Error ("<< e.getId() << ") : "
+                << e.what() << "\n";
+    }
+    catch (...)
+    {
+      std::cout << "An unknown error occured.\n";
     }
   } while (cmd != "QUIT");
 

@@ -5,6 +5,7 @@
 #include "Tool.hpp"
 #include "NonTool.hpp"
 #include "Config.hpp"
+#include "Inventory.hpp"
 
 namespace mobicraft
 {
