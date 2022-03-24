@@ -57,7 +57,7 @@ namespace mobicraft{
         return *craftedItem; // nullPtr
     }
 
-    void Crafting::takeCraftedItem(Config& config, Inventory& inventory){
+    void Crafting::moveCraftedItemToInven(Config& config, Inventory& inventory){
 
         // Removing each item in Crinven as much as min quantity of items in Crinven 
         int minQty = this->getMinimumQtyInCrinv(inventory);
