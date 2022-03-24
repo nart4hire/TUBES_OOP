@@ -44,7 +44,7 @@ namespace mobicraft {
         for (int i = 0; i < 9; ++i){
             if (Crinv[i] && Crinv[i]->isTool()){
                 return 1;
-            } 
+            }
             else if (Crinv[i] && !Crinv[i]->isTool()){
                 if (min == 0){
                     min = Crinv[i]->getAmt();
@@ -66,7 +66,7 @@ namespace mobicraft {
         }
 
         if (sumDurability <= 10){
-           return sumDurability;    
+           return sumDurability;
         } else {
             return 10;
         }
@@ -182,8 +182,9 @@ namespace mobicraft {
         if (dst == Inv) b = this->Inven[j];
         else if (dst == Cr) b = this->Crinv[j];
 
-        if (a->isTool() && b != nullptr ||                  // Tool and other slot not empty
-            !a->isTool() && !(*a == *b))                    // NonTool and other slot not same item
+        if (b != nullptr && (                // Other slot is not empty
+            a->isTool()  ||                  // Tool
+            !(*a == *b)     ))               // Other slot not same item
             return true;
         return false;
     } // Auxiliary Function To Check for Item Crashing
@@ -291,6 +292,8 @@ namespace mobicraft {
         } catch (Exception *e) {
             std::cout << e->what() << std::endl;
         }
+
+        std::cout << "Moved Crafting Slot Items to Inventory." << std::endl;
 
         for (int i = 0; i < 27; i++) {
             if (this->Inven[i] != nullptr) of << this->Inven[i]->getId() << ":" << this->Inven[i]->getAmt() << std::endl;
