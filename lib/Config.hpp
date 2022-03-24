@@ -28,6 +28,7 @@ namespace mobicraft
 
     const std::vector<Recipe *> &getRecipes() const;
     const Recipe *getRecipe(const std::string &name) const;
+    const Recipe *getRecipe(int id) const;
 
     void printStatus() const;
   };

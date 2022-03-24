@@ -112,6 +112,17 @@ namespace mobicraft
     }
   }
 
+  const Recipe *Config::getRecipe(int id) const
+  {
+    for (const auto &i : recipesList)
+    {
+      if (i->id == id)
+        return i;
+    }
+
+    throw NotExistsException();
+  }
+
   void Config::printStatus() const
   {
     int craftables = 0;
