@@ -37,8 +37,16 @@ namespace mobicraft {
         return Inven[idx];
     }
 
+    void Inventory::setInven(int idx, Item* item){
+        Inven[idx] = item;
+    }
+
     Item* Inventory::getCrinv(int idx){
         return Crinv[idx];
+    }
+
+    void Inventory::setCrinv(int idx, Item* item){
+        Crinv[idx] = item;
     }
 
     const int Inventory::getMinimum() {
