@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../lib/Config.hpp"
 
 using namespace mobicraft;
