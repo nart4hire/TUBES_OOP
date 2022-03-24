@@ -6,7 +6,7 @@ namespace mobicraft {
             : Item(id, name, type), durability(MaxDurability) {}
 
     Tool::Tool(int id, std::string name, std::string type, int durability)
-            : Item(id, name, type), durability(MaxDurability) {}
+            : Item(id, name, type), durability(durability) {}
 
     Tool::~Tool() {}
 

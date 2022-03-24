@@ -15,7 +15,6 @@ namespace mobicraft {
     private:
         Item **Inven;
         Item **Crinv;
-        bool isCraftable;
 
     public:
         enum Stype {Inv = 0, Cr = 1}; // Declare
@@ -31,34 +30,61 @@ namespace mobicraft {
 
         // Methods
 
-        void DeleteSlotContents(Stype, int); // Auxiliary for deleting items in inventory slots
+        // Inven getter
+        Item* getInven(int idx);
 
-        void compareCrinvRecipe(Config&); // Check whether Crinv satisfies one of recipe configuration
-        void makeCrinvEmpty();
+        // Inven setter
+        void setInven(int idx, Item* item);
 
-        const int getMinimum(); // Gets index of ItemPTR of minimum empty slot
+        // Crinv getter
+        Item* getCrinv(int idx);
 
-        const int getMinimumSameItem(Item&); // Gets Index of the same item with contents 0 <= x <= 64
+        // Crinv setter
+        void setCrinv(int idx, Item* item);
 
-        const void Show(); // Menampilkan Isi Inven dan Crafting
+        // Return the minimum quantity of all items in Crinv
+        int getMinQtyInCrinv() const;
 
-        void Give(Config&, std::string, int); // Menambahkan Item pada Inventory
+        int sumCrinvToolsDurability() const;
 
-        void Discard(int, int); // Membuang Item pada Inventory
+        // Auxiliary for deleting items in inventory slots
+        void DeleteSlotContents(Stype, int); 
 
-        const bool isCrash(Stype, int, Stype, int); // Auxiliary Function To Check for Item Crashing
+        // Gets index of ItemPTR of minimum empty slot
+        const int getMinimum();
 
-        void Move(Stype, int, int, Stype, int*); // Generic Handler for Move command
+        // Gets Index of the same item with contents 0 <= x <= 64
+        const int getMinimumSameItem(Item&);
 
-        void Use(int); // Use dari inventory
+        // Menampilkan Isi Inven dan Crafting
+        const void Show(); 
 
-        void Craft(); // Melakukan Crafting
+        // Menambahkan Item pada Inventory
+        void Give(Config&, std::string, int); 
 
-        void Import(Config, std::string); // Import Inventory dari file .txt
+        // Membuang Item pada Inventory
+        void Discard(int, int); 
 
-        const void Export(std::string); // Melakukan export pada file .txt
+        // Auxiliary Function To Check for Item Crashing
+        const bool isCrash(Stype, int, Stype, int); 
 
-        void Help(); // Prints help
+        // Generic Handler for Move command
+        void Move(Stype, int, int, Stype, int*); 
+
+        // Use dari inventory
+        void Use(int); 
+
+        // Melakukan Crafting
+        void Craft(); 
+
+        // Import Inventory dari file .txt
+        void Import(Config, std::string); 
+
+        // Melakukan export pada file .txt
+        const void Export(std::string); 
+
+        // Prints help
+        void Help(); 
     };
 
 }

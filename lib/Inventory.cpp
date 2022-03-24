@@ -4,7 +4,7 @@
 
 namespace mobicraft {
     // ctor
-    Inventory::Inventory() : isCraftable(false){
+    Inventory::Inventory(){
         this->Inven = new Item*[27];
         for (int i = 0; i < 27; i++) this->Inven[i] = nullptr;
         this->Crinv = new Item*[9];
@@ -23,6 +23,55 @@ namespace mobicraft {
     }
 
     // Methods
+    Item* Inventory::getInven(int idx){
+        return Inven[idx];
+    }
+
+    void Inventory::setInven(int idx, Item* item){
+        Inven[idx] = item;
+    }
+
+    Item* Inventory::getCrinv(int idx){
+        return Crinv[idx];
+    }
+
+    void Inventory::setCrinv(int idx, Item* item){
+        Crinv[idx] = item;
+    }
+
+    int Inventory::getMinQtyInCrinv() const{
+        int min = 0;
+        for (int i = 0; i < 9; ++i){
+            if (Crinv[i] && Crinv[i]->isTool()){
+                return 1;
+            } 
+            else if (Crinv[i] && !Crinv[i]->isTool()){
+                if (min == 0){
+                    min = Crinv[i]->getAmt();
+                }
+                else if (min != 0 && Crinv[i]->getAmt() < min){
+                    min = Crinv[i]->getAmt();
+                }
+            }
+        }
+        return min;
+    }
+
+    int Inventory::sumCrinvToolsDurability() const{
+        int sumDurability = 0;
+        for (int i = 0; i < 9; ++i){
+            if (Crinv[i] && Crinv[i]->isTool()){
+                sumDurability += Crinv[i]->getAmt();
+            }
+        }
+
+        if (sumDurability <= 10){
+           return sumDurability;    
+        } else {
+            return 10;
+        }
+    }
+
     void Inventory::DeleteSlotContents(Stype s, int i) {
         if (s == Inv) {
             delete this->Inven[i];
@@ -33,41 +82,6 @@ namespace mobicraft {
         }
     } // Auxiliary for deleting items in inventory slots
 
-    void Inventory::compareCrinvRecipe(Config& config){
-        Grid<std::string> CrinvOfItemName(3,3);
-
-        int crinvIterator = 0;
-        std::string nameAtCrinvIterator = "";
-
-        for (int i = 0; i < 3; ++i){
-            for (int j = 0; j < 3; ++j){
-                if (this->Crinv[crinvIterator]){
-                    if (Crinv[crinvIterator]->hasType()) {
-                        nameAtCrinvIterator = Crinv[crinvIterator]->getType();
-                    } else {
-                        nameAtCrinvIterator = Crinv[crinvIterator]->getName();
-                    }
-                    CrinvOfItemName.at(i, j) = nameAtCrinvIterator;
-                } else {
-                    CrinvOfItemName.at(i, j) = "-";
-                }
-                ++crinvIterator;
-            }
-        }
-
-        auto recipeList = config.getRecipes();
-        for (const auto& recipe : recipeList){
-            if (*recipe == CrinvOfItemName){
-                isCraftable = true;
-            }
-        }
-    }
-
-    void Inventory::makeCrinvEmpty(){
-        for (int i = 0; i < 9; ++i){
-            this->DeleteSlotContents(Cr, i);
-        }
-    }
 
     const int Inventory::getMinimum() {
         for (int i = 0; i < 27; i++) {
