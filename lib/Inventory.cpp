@@ -209,6 +209,7 @@ namespace mobicraft {
                     this->Crinv[j[0]] = new NonTool(this->Inven[i]->getId(), this->Inven[i]->getName(), this->Inven[i]->getType(), 1);
                     this->Inven[i]->setAmt(this->Inven[i]->getAmt() - 1);
                 }
+                if (this->Inven[i]->getAmt() == 0) this->DeleteSlotContents(Inv, i);
             } else if (!this->Inven[i]->isTool()) {
                 for (int it = 0; it < n; it++) {
                     if (this->Crinv[j[it]] == nullptr) {
@@ -289,17 +290,17 @@ namespace mobicraft {
         std::ofstream of(path);
         int idx[1];
 
-        try {
-            for (int i = 0; i < 9; i++) {
-                idx[0] = this->getMinimumSameItem(*this->Crinv[i]);
-                if (idx[0] == -1) idx[0] = this->getMinimum();
-                this->Move(Cr, i, 1, Inv, idx);
-            }
-        } catch (Exception *e) {
-            std::cout << e->what() << std::endl;
-        }
+        // try {
+        //     for (int i = 0; i < 9; i++) {
+        //         idx[0] = this->getMinimumSameItem(*this->Crinv[i]);
+        //         if (idx[0] == -1) idx[0] = this->getMinimum();
+        //         this->Move(Cr, i, 1, Inv, idx);
+        //     }
+        // } catch (Exception *e) {
+        //     std::cout << e->what() << std::endl;
+        // }
 
-        std::cout << "Moved Crafting Slot Items to Inventory." << std::endl;
+        // std::cout << "Moved Crafting Slot Items to Inventory." << std::endl;
 
         for (int i = 0; i < 27; i++) {
             if (this->Inven[i] != nullptr) of << this->Inven[i]->getId() << ":" << this->Inven[i]->getAmt() << std::endl;

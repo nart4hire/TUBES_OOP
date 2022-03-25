@@ -1,10 +1,14 @@
+TC_FOLDER = tests
+EXT_IN = in
+EXT_OUT = out
+EXT_ANS = ans
 EXECUTABLE_FILENAME = main
 LIB_SRCS := $(wildcard lib/*.cpp)
 ALL_SRCS := $(wildcard *.cpp) $(LIB_SRCS)
-SRCS     := $(filter-out check.cpp testinv.cpp, $(ALL_SRCS))
+SRCS     := $(filter-out check.cpp, $(ALL_SRCS))
 TEST_DIR := test
 
-all: compile
+all: compile test check
 
 # Compile all cpp files except check.cpp
 compile:
@@ -19,3 +23,14 @@ ifneq ($(MODULE), )
 	g++ -std=c++17 -o $(TEST_DIR)/bin/$(MODULE) $(TEST_DIR)/$(MODULE).cpp $(LIB_SRCS)
 	./$(TEST_DIR)/bin/$(MODULE)
 endif
+
+test: $(TC_FOLDER)/*.$(EXT_IN)
+	for inputfile in $(TC_FOLDER)/*.$(EXT_IN); do \
+		./$(EXECUTABLE_FILENAME) < $$inputfile; \
+	done;
+
+check: FORCE check.cpp
+	g++ -std=c++17 -o check check.cpp
+	./check
+
+FORCE: ;
