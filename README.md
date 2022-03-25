@@ -1,4 +1,4 @@
-# Tugas Besar IF2210 Pemrograman Berorientasi Objek 2021/2022
+# Tugas Besar 1 IF2210 Pemrograman Berorientasi Objek 2021/2022
 
 K03 Kelompok 11
 
