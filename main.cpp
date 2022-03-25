@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 
   if (argc == 2)
   {
-      itemsFile = argv[1] + itemsFile;
-      recipesDir = argv[1] + recipesDir;
+      itemsFile = std::string(argv[1]) + "/item.txt";
+      recipesDir = std::string(argv[1]) + "/recipe";
   }
   else if (argc >= 3)
   {
