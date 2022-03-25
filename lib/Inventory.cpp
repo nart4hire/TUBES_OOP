@@ -278,11 +278,27 @@ namespace mobicraft {
         std::string line, token, num;
         std::string delimiter = ":";
 
+        for (int i = 0; i < 9; i++) {
+            if (this->Crinv[i] != nullptr) this->DeleteSlotContents(Cr, i);
+        }
+
+        for (int i = 0; i < 27; i++) {
+            if (this->Inven[i] != nullptr) this->DeleteSlotContents(Inv, i);
+        }
+
         while(std::getline(inf, line)) {
             token = line.substr(0, line.find(delimiter));
             num = line.erase(0, line.find(delimiter) + delimiter.length());
-            std::cout << token << ":" << num << std::endl;
+            if (num != "0") {
+                const Recipe *r = c.getRecipe(std::stoi(token));
+                if (r->isTool) {
+                    this->Inven[this->getMinimum()] = new Tool(r->id, r->name, r->type, std::stoi(num));
+                }
+                else this->Give(c, r->name, std::stoi(num));
+            }
         }
+
+        std::cout << std::endl << "Import Successful" << std::endl;
 
     } // Import Inventory dari file .txt
 
@@ -290,22 +306,26 @@ namespace mobicraft {
         std::ofstream of(path);
         int idx[1];
 
-        // try {
-        //     for (int i = 0; i < 9; i++) {
-        //         idx[0] = this->getMinimumSameItem(*this->Crinv[i]);
-        //         if (idx[0] == -1) idx[0] = this->getMinimum();
-        //         this->Move(Cr, i, 1, Inv, idx);
-        //     }
-        // } catch (Exception *e) {
-        //     std::cout << e->what() << std::endl;
-        // }
+        try {
+            for (int i = 0; i < 9; i++) {
+                if (this->Crinv[i] != nullptr) {
+                    idx[0] = this->getMinimumSameItem(*this->Crinv[i]);
+                    if (idx[0] == -1) idx[0] = this->getMinimum();
+                    this->Move(Cr, i, 1, Inv, idx);
+                }
+            }
+        } catch (Exception *e) {
+            std::cout << std::endl << e->what() << std::endl;
+        }
 
-        // std::cout << "Moved Crafting Slot Items to Inventory." << std::endl;
+        std::cout << std::endl << "Moved Crafting Slot Items to Inventory." << std::endl;
 
         for (int i = 0; i < 27; i++) {
             if (this->Inven[i] != nullptr) of << this->Inven[i]->getId() << ":" << this->Inven[i]->getAmt() << std::endl;
             else of << "0:0" << std::endl;
         }
+
+        std::cout << std::endl << "Export Successful" << std::endl;
         of.close();
     } // Melakukan export pada file .txt
 
