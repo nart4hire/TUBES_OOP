@@ -65,7 +65,8 @@ namespace mobicraft
       return true;
     }
 
-    bool operator!=(const Grid &o) const
+    template <class U>
+    bool operator!=(const Grid<U> &o) const
     {
       return !(*this == o);
     }
