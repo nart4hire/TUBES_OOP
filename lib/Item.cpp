@@ -19,6 +19,14 @@ namespace mobicraft {
         return (this->id == dst.id && this->name == dst.name && this->type == dst.type);
     }
 
+    bool operator==(const Item *item, const std::string& str) {
+        return item->name == str || item->type == str;
+    }
+
+    bool operator!=(const Item *item, const std::string& str) {
+        return !(item == str);
+    }
+
     bool Item::equals(const Item& dst) {
         return (this->id == dst.id && this->name == dst.name && this->type == dst.type);
     }

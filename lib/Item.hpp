@@ -24,6 +24,8 @@ namespace mobicraft
         bool hasType() const;
 
         bool operator==(const Item &);
+        friend bool operator==(const Item *, const std::string&);
+        friend bool operator!=(const Item *, const std::string&);
         bool equals(const Item &);
 
         virtual void use() = 0;

@@ -22,8 +22,8 @@ namespace mobicraft
 
     Recipe(int id, std::string name, std::string type, bool isTool);
     bool isCraftable() const;
-    bool operator==(const Grid<std::string> &table) const;
-    bool operator!=(const Grid<std::string> &table) const;
+    bool operator==(const Grid<Item *> &table) const;
+    bool operator!=(const Grid<Item *> &table) const;
 
     virtual int getAmt() = 0;
     virtual void set(const Grid<std::string> &recipe, int quantity) = 0;

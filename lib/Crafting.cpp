@@ -11,20 +11,16 @@ namespace mobicraft{
 
     void Crafting::crafting(){
         // Convert Crinven container to grid of string. Used for comparing with recipes configuration
-        Grid<std::string> crinvConfig(3,3);
+        Grid<Item *> crinvConfig(3,3);
 
         int idx = 0;
         for (int i = 0; i < 3; ++i){
             for (int j = 0; j < 3; ++j){
                 if (this->inventory.getCrinv(idx)){
-                    if (this->inventory.getCrinv(idx)->hasType()){
-                        crinvConfig.at(i,j) = this->inventory.getCrinv(idx)->getType();
-                    } else {
-                        crinvConfig.at(i,j) = this->inventory.getCrinv(idx)->getName();
-                    }
+                    crinvConfig.at(i,j) = this->inventory.getCrinv(idx);
 
                 } else {
-                    crinvConfig.at(i,j) = "-";
+                    crinvConfig.at(i,j) = nullptr;
                 }
 
                 ++idx;
@@ -93,7 +89,7 @@ namespace mobicraft{
         }
     }
 
-    bool Crafting::isOnlyTwoSameTools(Grid<std::string>& crinvConfig) const{
+    bool Crafting::isOnlyTwoSameTools(Grid<Item *>& crinvConfig) const{
         // I.S: crinvConfig only contains tools item
         // F.S: Return true if crinvConfig only contains two same tools type
 
@@ -103,7 +99,10 @@ namespace mobicraft{
         if (rows + cols != 2){
             return false;
         } else {
-            if (crinvConfig.at(0, 0) != crinvConfig.at(rows-1, cols-1)){
+            if (crinvConfig.at(0, 0) == nullptr ||
+                    crinvConfig.at(rows-1, cols-1) == nullptr ||
+                    !crinvConfig.at(0, 0)->isTool() ||
+                    crinvConfig.at(0, 0) != crinvConfig.at(rows-1, cols-1)){
                 return false;
             }
         }

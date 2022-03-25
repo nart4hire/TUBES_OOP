@@ -21,7 +21,7 @@ namespace mobicraft
 
             // I.S: crinvConfig only contains tools item name
             // F.S: Return true if crinvConfig only contains two same tools name
-            bool isOnlyTwoSameTools(Grid<std::string>& crinvConfig) const; 
+            bool isOnlyTwoSameTools(Grid<Item *>& crinvConfig) const; 
 
             // I.S: this->craftedItem exists
             // F.S: - craftedItem moved to Inven 

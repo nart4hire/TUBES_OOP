@@ -17,16 +17,16 @@ namespace mobicraft
     return !recipe.isNull();
   }
 
-  bool Recipe::operator==(const Grid<std::string> &table) const
+  bool Recipe::operator==(const Grid<Item *> &table) const
   {
     if (!isCraftable())
       return false;
 
-    auto reduced = table.reduce(std::string("-"));
-    return recipe == reduced || recipe.flipVertically() == reduced;
+    auto reduced = table.reduce(nullptr);
+    return reduced == recipe ||  reduced == recipe.flipVertically();
   }
 
-  bool Recipe::operator!=(const Grid<std::string> &table) const
+  bool Recipe::operator!=(const Grid<Item *> &table) const
   {
     return !(*this == table);
   }
