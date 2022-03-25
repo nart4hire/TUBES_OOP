@@ -6,7 +6,6 @@ EXECUTABLE_FILENAME = main
 LIB_SRCS := $(wildcard lib/*.cpp)
 ALL_SRCS := $(wildcard *.cpp) $(LIB_SRCS)
 SRCS     := $(filter-out check.cpp, $(ALL_SRCS))
-TEST_DIR := test
 
 all: compile test check
 
@@ -20,8 +19,8 @@ testinv:
 
 unit-test:
 ifneq ($(MODULE), )
-	g++ -std=c++17 -o $(TEST_DIR)/bin/$(MODULE) $(TEST_DIR)/$(MODULE).cpp $(LIB_SRCS)
-	./$(TEST_DIR)/bin/$(MODULE)
+	g++ -std=c++17 -o $(TC_FOLDER)/bin/$(MODULE) $(TC_FOLDER)/$(MODULE).cpp $(LIB_SRCS)
+	./$(TC_FOLDER)/bin/$(MODULE)
 endif
 
 test: $(TC_FOLDER)/*.$(EXT_IN)

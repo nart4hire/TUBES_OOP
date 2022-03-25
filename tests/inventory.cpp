@@ -51,8 +51,8 @@ int main(int argc, char const *argv[])
     }
     I.Show();
 
-    I.Export("./test/Test.txt");
-    I.Import(config, "./test/Test.txt");
+    I.Export("./tests/Test.txt");
+    I.Import(config, "./tests/Test.txt");
 
     return 0;
 }
