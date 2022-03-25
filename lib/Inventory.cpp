@@ -131,24 +131,25 @@ namespace mobicraft {
         std::map<std::string, Recipe *>::iterator it;
         int minSameIdx, remainder;
 
-        // Inventory Full
-        if (this->getMinimum() == -1) throw ContainerFullException();
 
         const Recipe *r = c.getRecipe(s);
         if (r->isTool) {
+            // Inventory Full
+            if (this->getMinimum() == -1) throw ContainerFullException();
             this->Inven[this->getMinimum()] = new Tool(r->id, r->name, r->type);
             if (i > 1) this->Give(c, s, i - 1);
         } else {
             NonTool nt = NonTool(r->id, r->name, r->type, 1);
             minSameIdx = this->getMinimumSameItem(nt);
             if (minSameIdx == -1) {
+                // Inventory Full
+                if (this->getMinimum() == -1) throw ContainerFullException();
                 if (i > NonTool::MaxQuantity) {
                     this->Inven[this->getMinimum()] = new NonTool(r->id, r->name, r->type, NonTool::MaxQuantity);
                     this->Give(c, s, i - NonTool::MaxQuantity);
                 } else {
                     this->Inven[this->getMinimum()] = new NonTool(r->id, r->name, r->type, i);
                 }
-
             } else if (this->Inven[minSameIdx]->getAmt() + i < NonTool::MaxQuantity + 1) {
                 this->Inven[minSameIdx]->setAmt(this->Inven[minSameIdx]->getAmt() + i);
             } else {
