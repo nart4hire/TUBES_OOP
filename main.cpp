@@ -150,8 +150,8 @@ int main(int argc, char *argv[])
           if (qty < dests.size())
             throw InvalidCommandException();
         }
-
-        inv.Move(src.first, src.second, qty, dest.first, {/* dests */});
+        int *destarr = &dests[0];
+        inv.Move(src.first, src.second, qty, dest.first, destarr);
       }
       else
       {
