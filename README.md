@@ -18,8 +18,9 @@ direktori `config`.
 ## Install dan Run
 
 Program ditulis dalam bahasa C++ standar 2017. Kompilasi dilakukan dengan
-`g++` dan `makefile`. Untuk mengkompilasi dan menjalankan program dengan
-config default, jalankan perintah berikut pada direktori utama:
+`g++` dan `makefile`. Platform yang disupport adalah Linux (bisa dengan WSL).
+Untuk mengkompilasi dan menjalankan program dengan config default, jalankan
+perintah berikut pada direktori utama:
 
 ```
 $ make
