@@ -18,11 +18,6 @@ namespace mobicraft {
         delete[] this->Crinv;
     }
 
-    // Command Handler
-    std::istream& operator>>(std::istream& is, Inventory& I) {
-        return is;
-    }
-
     // Methods
     Item* Inventory::getInven(int idx){
         return Inven[idx];
@@ -89,14 +84,14 @@ namespace mobicraft {
             if (this->Inven[i] == nullptr) return i;
         }
         return -1;
-    } // Gets ItemPTR of minimum empty slot
+    } // Gets index of item of minimum empty slot
 
-    const int Inventory::getMinimumSameItem(Item& I) {
+    const int Inventory::getMinimum(Item& I) {
         for (int i = 0; i < 27; i++) {
             if (this->Inven[i] != nullptr && *this->Inven[i] == I && !this->Inven[i]->isFull()) return i;
         }
         return -1;
-    }
+    } // Gets index of item of minimum same item
 
     const void Inventory::Show() {
         // Crafting
@@ -140,7 +135,7 @@ namespace mobicraft {
             if (i > 1) this->Give(c, s, i - 1);
         } else {
             NonTool nt = NonTool(r->id, r->name, r->type, 1);
-            minSameIdx = this->getMinimumSameItem(nt);
+            minSameIdx = this->getMinimum(nt);
             if (minSameIdx == -1) {
                 // Inventory Full
                 if (this->getMinimum() == -1) throw ContainerFullException();
@@ -309,7 +304,7 @@ namespace mobicraft {
         try {
             for (int i = 0; i < 9; i++) {
                 if (this->Crinv[i] != nullptr) {
-                    idx[0] = this->getMinimumSameItem(*this->Crinv[i]);
+                    idx[0] = this->getMinimum(*this->Crinv[i]);
                     if (idx[0] == -1) idx[0] = this->getMinimum();
                     this->Move(Cr, i, 1, Inv, idx);
                 }
