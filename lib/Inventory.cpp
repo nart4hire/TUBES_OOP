@@ -123,9 +123,7 @@ namespace mobicraft {
     } // Menampilkan Isi Inven dan Crafting
 
     void Inventory::Give(Config& c, std::string s, int i) {
-        std::map<std::string, Recipe *>::iterator it;
         int minSameIdx, remainder;
-
 
         const Recipe *r = c.getRecipe(s);
         if (r->isTool) {

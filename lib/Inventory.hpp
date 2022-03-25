@@ -1,8 +1,6 @@
 #ifndef INVEN_HEADER
 #define INVEN_HEADER
 
-#include <iterator>
-#include <map>
 #include <utility>
 #include "Exception.hpp"
 #include "Config.hpp"

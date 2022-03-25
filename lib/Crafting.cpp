@@ -2,7 +2,7 @@
 #include "Inventory.hpp"
 
 namespace mobicraft{
-    Crafting::Crafting(Config& c, Inventory& i) : craftedItem(nullptr), minQtyUsed(0), config(c), inventory(i){        
+    Crafting::Crafting(Config& c, Inventory& i) : craftedItem(nullptr), minQtyUsed(0), config(c), inventory(i){
     }
 
     Crafting::~Crafting(){
@@ -12,7 +12,7 @@ namespace mobicraft{
     void Crafting::crafting(){
         // Convert Crinven container to grid of string. Used for comparing with recipes configuration
         Grid<std::string> crinvConfig(3,3);
-        
+
         int idx = 0;
         for (int i = 0; i < 3; ++i){
             for (int j = 0; j < 3; ++j){
@@ -26,13 +26,13 @@ namespace mobicraft{
                 } else {
                     crinvConfig.at(i,j) = "-";
                 }
-                
+
                 ++idx;
             }
         }
 
         if (crinvConfig.isNull()) {
-            throw NothingSlotException();
+            throw NotExistsException();
 
         } else { // Crafting item by evaluating Crinv configuration over recipes
             int itemCraftedQty = 0;
@@ -43,16 +43,14 @@ namespace mobicraft{
                     if (*recipe == crinvConfig){
                         this->minQtyUsed = this->inventory.getMinQtyInCrinv();
                         if (recipe->isTool){
-                            if (this->isOnlyTwoSameTools(crinvConfig)){    
+                            if (this->isOnlyTwoSameTools(crinvConfig)){
                                 this->craftedItem = new Tool(
-                                                        recipe->id, recipe->name, recipe->type, 
-                                                        this->inventory.sumCrinvToolsDurability());                                               
+                                                        recipe->id, recipe->name, recipe->type,
+                                                        this->inventory.sumCrinvToolsDurability());
                             } else {
                                 this->craftedItem = new Tool(recipe->id, recipe->name, recipe->type);
                             }
-
                             itemCraftedQty = this->minQtyUsed;
-                        
                         } else {
                             itemCraftedQty = recipe->getAmt() * minQtyUsed;
                             this->craftedItem = new NonTool(recipe->id, recipe->name, recipe->type, itemCraftedQty);
@@ -62,7 +60,7 @@ namespace mobicraft{
                     }
                 }
             }
-            
+
             this->moveCraftedItemToInven(itemCraftedQty);
         }
     }
@@ -72,7 +70,7 @@ namespace mobicraft{
             throw CraftedItemNotFound();
         } else {
             inventory.Give(this->config, this->craftedItem->getName(), quantity); // Exception is possibly thrown
-            
+
             // Remove some or all items in Crinven
             for (int i = 0; i < 9; ++i){
                 if (this->inventory.getCrinv(i)){
