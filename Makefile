@@ -19,7 +19,7 @@ testinv:
 
 unit-test:
 ifneq ($(MODULE), )
-	g++ -std=c++17 -o $(TC_FOLDER)/bin/$(MODULE) $(TC_FOLDER)/$(MODULE).cpp $(LIB_SRCS)
+	g++ -std=c++17 -o $(TC_FOLDER)/bin/$(MODULE) $(TC_FOLDER)/$(MODULE).cpp
 	./$(TC_FOLDER)/bin/$(MODULE)
 endif
 

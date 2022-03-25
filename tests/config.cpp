@@ -1,13 +1,19 @@
 #include <iostream>
 #include "../lib/Config.hpp"
 
+#include "../lib/Config.cpp"
+#include "../lib/Recipe.cpp"
+#include "../lib/Item.cpp"
+#include "../lib/NonTool.cpp"
+#include "../lib/Tool.cpp"
+
 using namespace mobicraft;
 
 int main(void)
 {
   std::cout << "Load config from default files.\n";
 
-  Config config("../../config/item.txt", "../../config/recipe");
+  Config config("./config/item.txt", "./config/recipe");
   try
   {
     config.load();
