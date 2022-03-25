@@ -22,12 +22,12 @@ namespace mobicraft
     {
     }
 
-    int rows()
+    int rows() const
     {
       return row;
     }
 
-    int cols()
+    int cols() const
     {
       return col;
     }
@@ -47,9 +47,10 @@ namespace mobicraft
       return (row == 0) && (col == 0);
     }
 
-    bool operator==(const Grid &o) const
+    template <class U>
+    bool operator==(const Grid<U> &o) const
     {
-      if (row != o.row || col != o.col)
+      if (row != o.rows() || col != o.cols())
         return false;
 
       for (int i = 0; i < row; ++i)

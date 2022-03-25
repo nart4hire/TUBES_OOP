@@ -12,6 +12,15 @@ int main(void)
   std::cout << "\nPrint.\n";
   grint.print();
 
+  std::cout << "\nCreate 5x5 grid of float.\n";
+  Grid<float> grifl(5, 5);
+
+  std::cout << "\nPrint.\n";
+  grifl.print();
+
+  std::cout << "\nCompare.\n"
+            << (grint == grifl) << "\n";
+
   std::cout << "\nPopulate with 1-25.\n";
   for (int i = 0; i < 5; ++i)
     for (int j = 0; j < 5; ++j)
@@ -47,10 +56,10 @@ int main(void)
   grible.print();
 
   std::cout << "\nCompare.\n"
-            << (grint == grible);
+            << (grint == grible) << "\n";
 
   std::cout << "\nFlip and compare.\n"
-            << (grint.flipVertically() == grible);
+            << (grint.flipVertically() == grible) << "\n";
   
   return 0;
 }
