@@ -1,6 +1,14 @@
 #include "../lib/Inventory.hpp"
 #include "../lib/Config.hpp"
 
+// Needed because unit testing
+#include "../lib/Inventory.cpp"
+#include "../lib/Recipe.cpp"
+#include "../lib/Config.cpp"
+#include "../lib/Item.cpp"
+#include "../lib/NonTool.cpp"
+#include "../lib/Tool.cpp"
+
 using namespace mobicraft;
 
 int main(int argc, char const *argv[])

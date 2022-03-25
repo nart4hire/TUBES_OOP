@@ -2,6 +2,11 @@
 #include <string>
 #include "../lib/Recipe.hpp"
 
+#include "../lib/Recipe.cpp"
+#include "../lib/Item.cpp"
+#include "../lib/NonTool.cpp"
+#include "../lib/Tool.cpp"
+
 using namespace mobicraft;
 
 int main(void)
