@@ -156,7 +156,7 @@ namespace mobicraft {
     } // Menambahkan Item pada Inventory
 
     void Inventory::Discard(int i, int n) {
-        if (this->Inven[i] == nullptr) throw NothingSlotException();
+        if (this->Inven[i] == nullptr) throw NotExistsException();
         if (this->Inven[i]->isTool()) {
             this->DeleteSlotContents(Inv, i);
         } else {
