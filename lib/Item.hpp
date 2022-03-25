@@ -15,6 +15,7 @@ namespace mobicraft
 
     public:
         Item(int id, std::string name, std::string type);
+        Item(Item&);
         ~Item();
 
         const int getId() const;

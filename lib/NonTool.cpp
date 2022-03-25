@@ -5,6 +5,8 @@ namespace mobicraft {
     NonTool::NonTool(int id, std::string name, std::string type, int quantity)
             : Item(id, name, type), quantity(quantity) {}
 
+    NonTool::NonTool(NonTool& NT) : Item(NT.id, NT.name, NT.type), quantity(NT.quantity) {}
+
     NonTool::~NonTool() {}
 
     void NonTool::use() {
