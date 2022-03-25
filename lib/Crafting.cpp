@@ -10,7 +10,7 @@ namespace mobicraft{
     }
 
     void Crafting::crafting(){
-        // Convert Crinven container to grid of string
+        // Convert Crinven container to grid of string. Used for comparing with recipes configuration
         Grid<std::string> crinvConfig(3,3);
         
         int idx = 0;
@@ -32,7 +32,7 @@ namespace mobicraft{
         }
 
         if (crinvConfig.isNull()) {
-            throw new NothingSlotException();
+            throw NothingSlotException();
 
         } else { // Crafting item by evaluating Crinv configuration over recipes
             int itemCraftedQty = 0;
@@ -69,7 +69,7 @@ namespace mobicraft{
 
     void Crafting::moveCraftedItemToInven(int& quantity){
         if (!this->craftedItem){
-            throw new CraftedItemNotFound();
+            throw CraftedItemNotFound();
         } else {
             inventory.Give(this->config, this->craftedItem->getName(), quantity); // Exception is possibly thrown
             
