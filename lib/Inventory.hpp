@@ -2,6 +2,7 @@
 #define INVEN_HEADER
 
 #include <utility>
+#include <vector>
 #include "Exception.hpp"
 #include "Config.hpp"
 #include "Tool.hpp"
@@ -65,7 +66,7 @@ namespace mobicraft {
         const bool isCrash(Stype, int, Stype, int);
 
         // Generic Handler for Move command
-        void Move(Stype, int, int, Stype, int*);
+        void Move(Stype, int, int, Stype, std::vector<int>);
 
         // Use dari inventory
         void Use(int);

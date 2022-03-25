@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 namespace mobicraft {
     // ctor
@@ -184,7 +185,7 @@ namespace mobicraft {
         return false;
     } // Auxiliary Function To Check for Item Crashing
 
-    void Inventory::Move(Stype src, int i, int n, Stype dst, int* j) {
+    void Inventory::Move(Stype src, int i, int n, Stype dst, std::vector<int> j) {
         int moved;
         // Type 1
         if (src == Inv && dst == Cr) {
@@ -297,7 +298,7 @@ namespace mobicraft {
 
     const void Inventory::Export(std::string path) {
         std::ofstream of(path);
-        int idx[1];
+        std::vector<int> idx(1);
 
         try {
             for (int i = 0; i < 9; i++) {

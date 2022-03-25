@@ -1,3 +1,4 @@
+#include <vector>
 #include "../lib/Inventory.hpp"
 #include "../lib/Config.hpp"
 
@@ -30,8 +31,8 @@ int main(int argc, char const *argv[])
     config.load();
 
     Inventory I;
-    int idx[9] = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-    int jdx[1] = { 26 };
+    std::vector<int> idx{ 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+    std::vector<int> jdx{ 26 };
 
     I.Give(config, "OAK_LOG", 1);
     I.Show();
