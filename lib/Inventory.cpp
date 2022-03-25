@@ -333,6 +333,7 @@ namespace mobicraft {
         std::cout << "MOVE <CRAFT_SLOT_ID> 1 <INV_SLOT_ID>* : Memindahkan item dari slot crafting ke slot inventory\n";
         std::cout << "USE <INV_SLOT_ID>                     : Menggunakan Item, menurunkan durabilitas\n";
         std::cout << "CRAFT                                 : Craft Item\n";
+        std::cout << "IMPORT <NAMA_FILE>                    : Import inventory dari <NAMA_FILE>\n";
         std::cout << "EXPORT <NAMA_FILE>                    : Export inventory dengan nama <NAMA_FILE>\n";
     } // Prints help
 
