@@ -39,6 +39,11 @@ int main(int argc, char *argv[])
               << e.what() << "\n";
     exit(1);
   }
+  catch (...)
+  {
+    std::cout << "An unknown error occurred while loading config file.\n";
+    exit(1);
+  }
 
   std::cout << "Welcome to MOBICRAFT. Type HELP for help, QUIT to quit.\n";
   config.printStatus();
