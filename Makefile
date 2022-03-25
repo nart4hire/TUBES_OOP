@@ -14,9 +14,6 @@ compile:
 	g++ -std=c++17 -o $(EXECUTABLE_FILENAME) $(SRCS)
 
 # Test
-testinv:
-	g++ -o testinv testinv.cpp $(filter-out main.cpp lib/Crafting.cpp, $(SRCS))
-
 unit-test:
 ifneq ($(MODULE), )
 	g++ -std=c++17 -o $(TC_FOLDER)/bin/$(MODULE) $(TC_FOLDER)/$(MODULE).cpp
