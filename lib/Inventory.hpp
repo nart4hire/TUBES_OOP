@@ -26,9 +26,6 @@ namespace mobicraft {
         // dtor
         ~Inventory();
 
-        // Command Handler
-        friend std::istream& operator>>(std::istream&, Inventory&);
-
         // Methods
 
         // Inven getter
@@ -55,7 +52,7 @@ namespace mobicraft {
         const int getMinimum();
 
         // Gets Index of the same item with contents 0 <= x <= 64
-        const int getMinimumSameItem(Item&);
+        const int getMinimum(Item&);
 
         // Menampilkan Isi Inven dan Crafting
         const void Show();
