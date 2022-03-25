@@ -7,6 +7,8 @@ namespace mobicraft {
     {
     }
 
+    Item::Item(Item& I) : id(I.id), name(I.name), type(I.type) {}
+
     Item::~Item() {}
 
     void Item::getinfo() {

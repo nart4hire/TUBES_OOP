@@ -8,6 +8,8 @@ namespace mobicraft {
     Tool::Tool(int id, std::string name, std::string type, int durability)
             : Item(id, name, type), durability(durability) {}
 
+    Tool::Tool(Tool& T) : Item(T.id, T.name, T.type), durability(T.durability) {}
+
     Tool::~Tool() {}
 
     void Tool::use() {
