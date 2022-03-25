@@ -51,7 +51,7 @@ namespace mobicraft{
                                 this->craftedItem = new Tool(recipe->id, recipe->name, recipe->type);
                             }
 
-                            itemCraftedQty = 1;
+                            itemCraftedQty = this->minQtyUsed;
                         
                         } else {
                             itemCraftedQty = recipe->getAmt() * minQtyUsed;
