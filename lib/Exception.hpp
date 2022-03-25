@@ -106,6 +106,15 @@ namespace mobicraft
         
         std::string what() const { return "Invalid command."; }
     };
+
+    class IgnoredArgumentsException : public Exception
+    {
+    public:
+        IgnoredArgumentsException() : Exception(10) {}
+        ~IgnoredArgumentsException() {}
+        
+        std::string what() const { return "Excessive arguments are ignored."; }
+    };
 }
 
 #endif

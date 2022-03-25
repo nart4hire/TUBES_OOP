@@ -153,9 +153,15 @@ int main(int argc, char *argv[])
         int *destarr = &dests[0];
         inv.Move(src.first, src.second, qty, dest.first, destarr);
       }
-      else
+      else if (cmd != "QUIT")
       {
         throw InvalidCommandException();
+      }
+
+      std::string s;
+      if (input >> s)
+      {
+        throw IgnoredArgumentsException();
       }
     }
     catch (const Exception &e)
