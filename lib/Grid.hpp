@@ -34,12 +34,12 @@ namespace mobicraft
 
     T &at(int i, int j)
     {
-      return table[i * col + j];
+      return table.at(i * col + j);
     }
 
     const T &at(int i, int j) const
     {
-      return table[i * col + j];
+      return table.at(i * col + j);
     }
 
     bool isNull() const

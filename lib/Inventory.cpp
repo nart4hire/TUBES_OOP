@@ -349,6 +349,9 @@ namespace mobicraft {
 
         if (stream.fail()) throw NotExistsException();
 
+        if ((type == Cr && (idx < 0 || idx >= 9)) || (type == Inv && (idx < 0 || idx >= 27)))
+            throw NotExistsException();
+
         return std::pair<Inventory::Stype, int>(type, idx);
     }
 }
